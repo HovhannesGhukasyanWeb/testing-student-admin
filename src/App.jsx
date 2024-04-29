@@ -1,4 +1,5 @@
 import React, { Suspense } from "react";
+import { useSelector } from "react-redux";
 import {
   BrowserRouter as Router,
   Routes,
@@ -12,16 +13,8 @@ const Layout = React.lazy(() => import('./layout'));
 const NotFound = React.lazy(() => import('./pages/not-found'));
 const Login = React.lazy(() => import('./pages/login'));
 
-// import Home from "./pages/home";
-// import Personal from "./pages/personal";
-// import Layout from "./layout";
-// import NotFound from "./pages/not-found";
-// import Login from "./pages/login";
-
-
 function App() {
-  const isAuthenticated = true;
-
+  const { isAuthenticated } = useSelector((state) => state.user);
   return (
     <Router basename="/">
       <Suspense fallback={null}>

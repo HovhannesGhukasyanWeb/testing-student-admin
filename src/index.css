@@ -12,3 +12,41 @@ body {
     font-family: 'Roboto', sans-serif;
     background-color: #f7f7f7;
 }
+@layer components {
+    .button {
+        @apply px-[20px] py-[10px] rounded-[5px] text-white text-[16px] cursor-pointer;
+    }
+
+    .button.primary {
+        @apply bg-[#007bff];
+    }
+
+    .button.secondary {
+        @apply bg-[#6c757d] text-white;
+    }
+
+    .button.success {
+        background-color: #28a745;
+    }
+
+    .button.danger {
+        background-color: #dc3545;
+    }
+
+    .button.light {
+        background-color: #f8f9fa;
+    }
+
+    .button.dark {
+        background-color: #343a40;
+    }
+
+    .button.link {
+        background-color: white;
+        color: #007bff;
+    }
+
+    .button:hover {
+        filter: brightness(0.9);
+    }
+}
