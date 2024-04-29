@@ -15,7 +15,7 @@ export default function SidebarItem({ item }) {
 
     return (
         <li>
-            <div onClick={() => setIsSidebarItemOpen(!isSidebarItemOpen)} className={`cursor-pointer flex items-center w-full justify-between hover:bg-[#F3F3F3] p-2 pl-4 rounded-sm ${isSidebarItemOpen && "bg-[#F3F3F3]"}`}>
+            <div onClick={() => setIsSidebarItemOpen(!isSidebarItemOpen)} className={`cursor-pointer flex items-center w-full justify-between hover:bg-[#F3F3F3] p-2 pl-4 rounded-lg ${isSidebarItemOpen && "bg-[#F3F3F3]"}`}>
                 <span>{item.title}</span>
                 <ChevronLeft className={`w-4 h-4 ${isSidebarItemOpen ? "-rotate-90 transition duration-150" : ""}`} />
             </div>

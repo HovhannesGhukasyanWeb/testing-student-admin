@@ -1,12 +1,12 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
-import storageSession from "redux-persist/lib/storage/session";
+import storage from 'redux-persist/lib/storage'
 import { persistReducer, persistStore } from "redux-persist";
 import { thunk } from "redux-thunk";
 import userSlice from "./slices/userSlice";
 
 const persistConfig = {
     key: "testing-student-admin",
-    storage: storageSession,
+    storage,
     whitelist: ["user"],
 };
 

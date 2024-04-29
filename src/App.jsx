@@ -8,10 +8,10 @@ import {
 } from "react-router-dom";
 
 const Home = React.lazy(() => import('./pages/home'));
-const Personal = React.lazy(() => import('./pages/personal'));
 const Layout = React.lazy(() => import('./layout'));
 const NotFound = React.lazy(() => import('./pages/not-found'));
 const Login = React.lazy(() => import('./pages/login'));
+const Users = React.lazy(() => import('./pages/users'));
 
 function App() {
   const { isAuthenticated } = useSelector((state) => state.user);
@@ -32,7 +32,7 @@ function App() {
             element={isAuthenticated ? <Layout /> : <Navigate to="/login" />}
           >
             <Route index element={<Home />} />;
-            <Route path="personal" element={<Personal />} />
+            <Route path="/users" element={<Users />} />
             <Route path="*" element={<NotFound />} />
           </Route>
         </Routes>

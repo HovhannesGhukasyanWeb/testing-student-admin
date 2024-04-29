@@ -33,7 +33,7 @@ const Login = () => {
             const payload = { email, password };
 
             const { data } = await baseApi.post("/api/login", payload);
-            sessionStorage.setItem("authToken", data.token);
+            localStorage.setItem("authToken", data.token);
 
             const { data: me } = await baseApi.get("/api/getMe", getAxiosConfig());
             const user = me.user;

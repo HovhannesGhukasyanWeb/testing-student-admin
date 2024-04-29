@@ -7,7 +7,7 @@ const Layout = () => {
     return (
         <div className="h-full">
             <Navbar />
-            <div className="bg-white flex h-full">
+            <div className="bg-white flex" style={{ height: "calc(100% - 69px)" }}>
                 <Sidebar />
                 <Suspense fallback={null}>
                     <Outlet />

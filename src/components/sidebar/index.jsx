@@ -3,7 +3,7 @@ import SidebarItem from './sidebar-item';
 
 const Sidebar = () => {
     return (
-        <div className="h-full border-r border-lightgray">
+        <div className="border-r border-lightgray h-full">
             <div className="bg-white w-64 h-full">
                 <div className="p-3">
                     <ul className="mt-2">
