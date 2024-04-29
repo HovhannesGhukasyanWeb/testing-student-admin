@@ -3,11 +3,10 @@ import SidebarItem from './sidebar-item';
 
 const Sidebar = () => {
     return (
-        <div className="h-full">
+        <div className="border-r border-lightgray h-full">
             <div className="bg-white w-64 h-full">
-                <div className="p-6">
-                    <h2 className="text-black text-xl font-semibold">Student Testing</h2>
-                    <ul className="mt-6">
+                <div className="p-3">
+                    <ul className="mt-2">
                         {sidebar.map((sidebarItem) => <SidebarItem key={sidebarItem.title} item={sidebarItem} />)}
                     </ul>
                 </div>

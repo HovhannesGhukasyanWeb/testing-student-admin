@@ -1,4 +1,5 @@
 import React, { Suspense } from "react";
+import { useSelector } from "react-redux";
 import {
   BrowserRouter as Router,
   Routes,
@@ -7,21 +8,13 @@ import {
 } from "react-router-dom";
 
 const Home = React.lazy(() => import('./pages/home'));
-const Personal = React.lazy(() => import('./pages/personal'));
 const Layout = React.lazy(() => import('./layout'));
 const NotFound = React.lazy(() => import('./pages/not-found'));
 const Login = React.lazy(() => import('./pages/login'));
-
-// import Home from "./pages/home";
-// import Personal from "./pages/personal";
-// import Layout from "./layout";
-// import NotFound from "./pages/not-found";
-// import Login from "./pages/login";
-
+const Users = React.lazy(() => import('./pages/users'));
 
 function App() {
-  const isAuthenticated = true;
-
+  const { isAuthenticated } = useSelector((state) => state.user);
   return (
     <Router basename="/">
       <Suspense fallback={null}>
@@ -39,7 +32,7 @@ function App() {
             element={isAuthenticated ? <Layout /> : <Navigate to="/login" />}
           >
             <Route index element={<Home />} />;
-            <Route path="personal" element={<Personal />} />
+            <Route path="/users" element={<Users />} />
             <Route path="*" element={<NotFound />} />
           </Route>
         </Routes>
