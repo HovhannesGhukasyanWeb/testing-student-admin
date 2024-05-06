@@ -4,6 +4,7 @@ import Edit from './edit';
 import Delete from './delete';
 
 const Table = ({ users, total, loading }) => {
+    console.log(users)
     return (
         <div>
             <table className="w-full datatable">
@@ -11,13 +12,14 @@ const Table = ({ users, total, loading }) => {
                     <tr>
                         <th className="p-2">Name</th>
                         <th className="p-2">Email</th>
+                        <th className="p-2">Role</th>
                         <th className="p-2">Actions</th>
                     </tr>
                 </thead>
                 <tbody className='w-full'>
                     {loading ? (
                         <tr>
-                            <td colSpan={3} className='text-center'>
+                            <td colSpan={4} className='text-center'>
                                 Loading...
                             </td>
                         </tr>
@@ -27,6 +29,9 @@ const Table = ({ users, total, loading }) => {
                                 <td className="p-2">{user.username}</td>
                                 <td className="p-2">
                                     <a href={`mailto:${user.email}`}>{user.email}</a>
+                                </td>
+                                <td className='p-2'>
+                                    {user.role?.name || "N/A"}
                                 </td>
                                 <td className="p-2 flex items-center gap-2">
                                     <Edit user={user} />
