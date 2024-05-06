@@ -1,7 +1,9 @@
 import PropTypes from 'prop-types';
 import Pagination from '../../components/ui/pagination';
+import Edit from './edit';
+import Delete from './delete';
 
-const Table = ({ users, total }) => {
+const Table = ({ users, total, loading }) => {
     return (
         <div>
             <table className="w-full datatable">
@@ -9,24 +11,31 @@ const Table = ({ users, total }) => {
                     <tr>
                         <th className="p-2">Name</th>
                         <th className="p-2">Email</th>
-                        <th className="p-2">Role</th>
                         <th className="p-2">Actions</th>
                     </tr>
                 </thead>
-                <tbody>
-                    {users.map((user) => (
-                        <tr key={user.id}>
-                            <td className="p-2">{user.name}</td>
-                            <td className="p-2">
-                                <a href={`mailto:${user.email}`}>{user.email}</a>
-                            </td>
-                            <td className="p-2">{user.role}</td>
-                            <td className="p-2">
-                                <button className="mr-2">Edit</button>
-                                <button>Delete</button>
+                <tbody className='w-full'>
+                    {loading ? (
+                        <tr>
+                            <td colSpan={3} className='text-center'>
+                                Loading...
                             </td>
                         </tr>
-                    ))}
+                    ) : (
+                        users.map((user) => (
+                            <tr key={user.id}>
+                                <td className="p-2">{user.username}</td>
+                                <td className="p-2">
+                                    <a href={`mailto:${user.email}`}>{user.email}</a>
+                                </td>
+                                <td className="p-2 flex items-center gap-2">
+                                    <Edit user={user} />
+                                    <Delete user={user} />
+                                </td>
+                            </tr>
+                        ))
+                    )}
+
                 </tbody>
             </table>
 
@@ -45,7 +54,8 @@ const Table = ({ users, total }) => {
 
 Table.propTypes = {
     users: PropTypes.array.isRequired,
-    total: PropTypes.number.isRequired
+    total: PropTypes.number.isRequired,
+    loading: PropTypes.bool,
 }
 
 export default Table;

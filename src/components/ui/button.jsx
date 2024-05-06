@@ -23,7 +23,7 @@ Button.propTypes = {
     onClick: PropTypes.func,
     disabled: PropTypes.bool,
     type: PropTypes.oneOf(['button', 'submit', 'reset', undefined]),
-    variant: PropTypes.oneOf(['primary', 'secondary', 'success', 'danger', 'light', 'dark', 'link']),
+    variant: PropTypes.oneOf(['primary', 'secondary', 'success', 'danger', 'light', 'dark', 'link', 'warning']),
     className: PropTypes.string,
 }
 

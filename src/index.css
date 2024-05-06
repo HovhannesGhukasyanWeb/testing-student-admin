@@ -23,7 +23,7 @@ body {
             @apply bg-white p-[20px] rounded-[5px] w-[700px];
         }
     .button {
-        @apply px-[20px] py-[10px] rounded-[5px] text-white text-[16px] cursor-pointer w-max;
+        @apply px-[20px] py-[10px] rounded-[5px] text-white text-[16px] cursor-pointer w-max disabled:opacity-50;
     }
 
     .button.primary {
@@ -55,6 +55,9 @@ body {
         color: #007bff;
     }
 
+        .button.warning {
+            background-color: #ffc107;
+        }
     .button:hover {
         filter: brightness(0.9);
     }

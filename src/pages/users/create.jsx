@@ -16,7 +16,7 @@ const Create = () => {
 
             {isModalOpen && (
                 <Modal onClose={() => setIsModalOpen(false)} title="Create user">
-                    <Form />
+                    <Form closeModal={() => setIsModalOpen(false)} />
                 </Modal>
             )}
         </div>
