@@ -1,22 +1,21 @@
 import Button from "../../components/ui/button";
 import PropTypes from 'prop-types';
-import { useContext, useState } from 'react';
+import { useState } from 'react';
 import ConfirmDialog from "../../components/ui/confirm-dialog";
 import { remove as removeUser } from '../../apis/users'
 import { AxiosError } from "axios";
 import toast from 'react-hot-toast';
-import { UsersContext } from ".";
+import { useDispatch } from "react-redux";
+import { fetchData } from "../../store/slices/tableSlice";
 import { useSearchParams } from "react-router-dom";
-import baseApi from "../../apis/baseApi";
-import { getAxiosConfig } from "../../apis/config";
 
 const Delete = ({ user }) => {
     const [showDialog, setShowDialog] = useState(false);
-    const { setUsers, setTotal, setLoading } = useContext(UsersContext);
+    const [searchParams] = useSearchParams();
+    const dispatch = useDispatch();
     const handleDelete = () => {
         setShowDialog(true);
     }
-    const [searchParams] = useSearchParams();
 
     const remove = async () => {
         try {
@@ -26,16 +25,12 @@ const Delete = ({ user }) => {
             });
             setShowDialog(false);
 
-            (async () => {
-                setLoading(true)
-                const limit = 10;
-                const page = searchParams.get("page") || 1;
-                const search = searchParams.get("search") || null;
-                const { data: response } = await baseApi.get("/api/admin/users", { ...getAxiosConfig(), params: { limit, page, include: 'role', search } });
-                setUsers(response.data);
-                setTotal(response.totalData);
-                setLoading(false);
-            })();
+
+
+            const limit = 10;
+            const page = searchParams.get("page") || 1;
+            const search = searchParams.get("search") || null;
+            dispatch(fetchData({ endpoint: "/admin/users", params: { limit, page, search, include: 'role&userProfile' } }))
         } catch (error) {
             if (error instanceof AxiosError) {
                 toast.error('Something went wrong. Please try later.');

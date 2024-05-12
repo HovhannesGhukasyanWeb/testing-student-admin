@@ -32,10 +32,10 @@ const Login = () => {
             const password = e.target.password.value;
             const payload = { email, password };
 
-            const { data } = await baseApi.post("/api/login", payload);
+            const { data } = await baseApi.post("/login", payload);
             localStorage.setItem("authToken", data.token);
 
-            const { data: me } = await baseApi.get("/api/getMe", getAxiosConfig());
+            const { data: me } = await baseApi.get("/getMe", getAxiosConfig());
             const user = me.user;
             user.userProfile = me.user_profile;
 
