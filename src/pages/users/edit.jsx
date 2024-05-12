@@ -7,7 +7,6 @@ import Button from '../../components/ui/button';
 
 const Edit = ({ user }) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
-
     return (
         <div>
             <Button variant='warning' onClick={() => setIsModalOpen(true)}>
@@ -21,7 +20,7 @@ const Edit = ({ user }) => {
                         title={"Edit user"}
 
                     >
-                        <Form id={user.id} closeModal={() => setIsModalOpen(false)} />
+                        <Form user={user} closeModal={() => setIsModalOpen(false)} />
                     </Modal>
                 )
             }

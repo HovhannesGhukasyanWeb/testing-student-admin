@@ -1,17 +1,18 @@
 import PropTypes from 'prop-types';
 import Label from '../../components/ui/label';
 import Input from '../../components/ui/input';
-import { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import baseApi from '../../apis/baseApi';
 import { getAxiosConfig } from '../../apis/config';
 import Select from 'react-select';
 import Button from '../../components/ui/button';
-import { show, store, update } from '../../apis/users';
+import { store, update } from '../../apis/users';
 import { AxiosError } from 'axios';
 import { Loader2 } from 'lucide-react';
 import toast from 'react-hot-toast';
-import { UsersContext } from '.';
 import { useSearchParams } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { fetchData } from '../../store/slices/tableSlice';
 
 const errorsInitialState = {
     first_name: null,
@@ -23,51 +24,31 @@ const errorsInitialState = {
     role_id: null,
 };
 
-const dataInitialState = {
-    username: '',
-    email: '',
-    password: '',
-    role_id: null,
-    user_profile: {
-        first_name: '',
-        middle_name: '',
-        last_name: '',
-    }
-}
 
-const Form = ({ id = null, closeModal = () => { } }) => {
-    const isEditing = id !== null ? true : false;
+
+const Form = ({ user = null, closeModal = () => { } }) => {
+    const dataInitialState = {
+        username: user.username ?? '',
+        email: user.email ?? '',
+        password: '',
+        role_id: user.role.id ?? null,
+        user_profile: {
+            first_name: user.user_profile.first_name ?? '',
+            middle_name: user.user_profile.middle_name ?? '',
+            last_name: user.user_profile.last_name ?? '',
+        }
+    }
+    const isEditing = user !== null ? true : false;
     const [data, setData] = useState(dataInitialState);
     const [errors, setErrors] = useState(errorsInitialState);
     const [loading, setLoading] = useState(false);
     const [roles, setRoles] = useState([]);
-    const [isContentLoading, setIsContentLoading] = useState(false);
-    const { setUsers, setTotal, setLoading: setTableLoading } = useContext(UsersContext);
     let [searchParams] = useSearchParams();
-
-    useEffect(() => {
-        if (id) {
-            (async () => {
-                setIsContentLoading(true);
-                const { data: response } = await show(id);
-                setData({
-                    user_profile: {
-                        first_name: response.data.user_profile.first_name,
-                        middle_name: response.data.user_profile.middle_name,
-                        last_name: response.data.user_profile.last_name,
-                    },
-                    username: response.data.username,
-                    email: response.data.email,
-                    role_id: response.data.role_id
-                })
-                setIsContentLoading(false);
-            })();
-        }
-    }, [id]);
+    const dispatch = useDispatch();
 
     useEffect(() => {
         (async () => {
-            const { data: response } = await baseApi.get('/api/admin/roles', getAxiosConfig());
+            const { data: response } = await baseApi.get('/admin/roles', getAxiosConfig());
             const roles = response.data.map(role => {
                 return {
                     value: role.id,
@@ -84,7 +65,7 @@ const Form = ({ id = null, closeModal = () => { } }) => {
             setLoading(true);
             setErrors(errorsInitialState);
             if (isEditing) {
-                await update(id, data);
+                await update(user.id, data);
                 toast.success("User updated successfully", {
                     position: "top-right"
                 });
@@ -97,17 +78,10 @@ const Form = ({ id = null, closeModal = () => { } }) => {
 
             closeModal();
             setData(dataInitialState);
-            (async () => {
-                setTableLoading(true)
-                const limit = 10;
-                const page = searchParams.get("page") || 1;
-                const search = searchParams.get("search") || null;
-                const { data: response } = await baseApi.get("/api/admin/users", { ...getAxiosConfig(), params: { limit, page, include: 'role', search } });
-                console.log(response)
-                setUsers(response.data);
-                setTotal(response.totalData);
-                setTableLoading(false);
-            })();
+            const limit = 10;
+            const page = searchParams.get("page") || 1;
+            const search = searchParams.get("search") || null;
+            dispatch(fetchData({ endpoint: "/admin/users", params: { limit, page, search, include: 'role&userProfile' } }))
         } catch (error) {
             if (error instanceof AxiosError) {
                 if (error.response.status === 422) {
@@ -135,140 +109,136 @@ const Form = ({ id = null, closeModal = () => { } }) => {
 
     return (
         <form onSubmit={saveHandler} className='p-2'>
-            {!isContentLoading ? (
-                <div className='space-y-4'>
-                    <div className='flex items-start gap-2'>
-                        <div className='w-1/3'>
-                            <Label
-                                htmlFor='first_name'
-                                required={true}
-                            >
-                                First Name
-                            </Label>
-                            <Input
-                                id="first_name"
-                                name='first_name'
-                                value={data.user_profile.first_name}
-                                onChange={(e) => setData({ ...data, user_profile: { ...data.user_profile, first_name: e.target.value } })}
-                                errorMessage={errors.first_name}
-                            />
-                        </div>
-                        <div className='w-1/3'>
-                            <Label
-                                htmlFor='middle_name'
-                                required={true}
-                            >
-                                Middle name
-                            </Label>
-                            <Input
-                                id="middle_name"
-                                name='middle_name'
-                                value={data.user_profile.middle_name}
-                                onChange={(e) => setData({ ...data, user_profile: { ...data.user_profile, middle_name: e.target.value } })}
-                                errorMessage={errors.middle_name}
-                            />
-                        </div>
-                        <div className='w-1/3'>
-                            <Label
-                                htmlFor='last_name'
-                                required={true}
-                            >
-                                Last Name
-                            </Label>
-                            <Input
-                                id="last_name"
-                                name='last_name'
-                                value={data.user_profile.last_name}
-                                onChange={(e) => setData({ ...data, user_profile: { ...data.user_profile, last_name: e.target.value } })}
-                                errorMessage={errors.last_name}
-                            />
-                        </div>
-                    </div>
-                    <div>
+            <div className='space-y-4'>
+                <div className='flex items-start gap-2'>
+                    <div className='w-1/3'>
                         <Label
-                            htmlFor='username'
+                            htmlFor='first_name'
                             required={true}
                         >
-                            Username
+                            First Name
                         </Label>
                         <Input
-                            id="username"
-                            name='username'
-                            value={data.username}
-                            onChange={(e) => setData({ ...data, username: e.target.value })}
-                            errorMessage={errors.username}
+                            id="first_name"
+                            name='first_name'
+                            value={data.user_profile.first_name}
+                            onChange={(e) => setData({ ...data, user_profile: { ...data.user_profile, first_name: e.target.value } })}
+                            errorMessage={errors.first_name}
                         />
                     </div>
-                    <div>
+                    <div className='w-1/3'>
                         <Label
-                            htmlFor='email'
+                            htmlFor='middle_name'
                             required={true}
                         >
-                            Email
+                            Middle name
                         </Label>
                         <Input
-                            id="email"
-                            name='email'
-                            value={data.email}
-                            onChange={(e) => setData({ ...data, email: e.target.value })}
-                            errorMessage={errors.email}
+                            id="middle_name"
+                            name='middle_name'
+                            value={data.user_profile.middle_name}
+                            onChange={(e) => setData({ ...data, user_profile: { ...data.user_profile, middle_name: e.target.value } })}
+                            errorMessage={errors.middle_name}
                         />
                     </div>
-                    <div>
+                    <div className='w-1/3'>
                         <Label
-                            htmlFor='password'
+                            htmlFor='last_name'
                             required={true}
                         >
-                            Password
+                            Last Name
                         </Label>
                         <Input
-                            id="password"
-                            name='password'
-                            type='password'
-                            value={data.password}
-                            onChange={(e) => setData({ ...data, password: e.target.value })}
-                            errorMessage={errors.password}
+                            id="last_name"
+                            name='last_name'
+                            value={data.user_profile.last_name}
+                            onChange={(e) => setData({ ...data, user_profile: { ...data.user_profile, last_name: e.target.value } })}
+                            errorMessage={errors.last_name}
                         />
-                    </div>
-                    <div>
-                        <Label
-                            htmlFor='roless'
-                            required={true}
-                        >
-                            Roles
-                        </Label>
-                        <Select
-                            name='role_id'
-                            options={roles}
-                            value={roles.find(role => role.value === data.role_id)}
-                            onChange={(selectedRole) => setData({ ...data, role_id: selectedRole.value })}
-                            isClearable={false}
-                        />
-                        {errors.role_id && <span className="text-red-500 text-xs mt-1 ml-1">{errors.role_id}</span>}
-                    </div>
-                    <div>
-                        <Button
-                            type='submit'
-                            variant='primary'
-                            className='w-full flex items-center gap-2 justify-center'
-                            disabled={loading}
-                        >
-                            {loading && <Loader2 className='animate-spin w-4 h-4' />}
-                            Save
-                        </Button>
                     </div>
                 </div>
-            ) : (
-                <div className='p-5 flex items-center justify-center'>
-                    <Loader2 className='w-4 h-4 animate-spin' />
+                <div>
+                    <Label
+                        htmlFor='username'
+                        required={true}
+                    >
+                        Username
+                    </Label>
+                    <Input
+                        id="username"
+                        name='username'
+                        value={data.username}
+                        onChange={(e) => setData({ ...data, username: e.target.value })}
+                        errorMessage={errors.username}
+                    />
                 </div>
-            )}
+                <div>
+                    <Label
+                        htmlFor='email'
+                        required={true}
+                    >
+                        Email
+                    </Label>
+                    <Input
+                        id="email"
+                        name='email'
+                        value={data.email}
+                        onChange={(e) => setData({ ...data, email: e.target.value })}
+                        errorMessage={errors.email}
+                    />
+                </div>
+                <div>
+                    <Label
+                        htmlFor='password'
+                        required={true}
+                    >
+                        Password
+                    </Label>
+                    <Input
+                        id="password"
+                        name='password'
+                        type='password'
+                        value={data.password}
+                        onChange={(e) => setData({ ...data, password: e.target.value })}
+                        errorMessage={errors.password}
+                    />
+                </div>
+                <div>
+                    <Label
+                        htmlFor='role'
+                        required={true}
+                    >
+                        Role
+                    </Label>
+                    <Select
+                        name='role_id'
+                        id='role'
+                        options={roles}
+                        value={roles.find(role => role.value === data.role_id)}
+                        onChange={(selectedRole) => setData({ ...data, role_id: selectedRole.value })}
+                        isClearable={false}
+                    />
+                    {errors.role_id && <span className="text-red-500 text-xs mt-1 ml-1">{errors.role_id}</span>}
+                </div>
+                <div>
+                    <Button
+                        type='submit'
+                        variant='primary'
+                        className='w-full flex items-center gap-2 justify-center'
+                        disabled={loading}
+                    >
+                        {loading && <Loader2 className='animate-spin w-4 h-4' />}
+                        Save
+                    </Button>
+                </div>
+            </div>
+
         </form>
     )
 }
 
 Form.propTypes = {
-    id: PropTypes.number,
+    user: PropTypes.object,
     closeModal: PropTypes.func,
 }
 
