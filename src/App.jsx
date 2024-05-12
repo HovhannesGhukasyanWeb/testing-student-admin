@@ -12,6 +12,7 @@ const Layout = React.lazy(() => import('./layout'));
 const NotFound = React.lazy(() => import('./pages/not-found'));
 const Login = React.lazy(() => import('./pages/login'));
 const Users = React.lazy(() => import('./pages/users'));
+const ManagerSubjects = React.lazy(() => import('./pages/manager/subjects'));
 
 function App() {
   const { isAuthenticated } = useSelector((state) => state.user);
@@ -33,6 +34,7 @@ function App() {
           >
             <Route index element={<Home />} />;
             <Route path="/users" element={<Users />} />
+            <Route path="/manager/subjects" element={<ManagerSubjects />} />
             <Route path="*" element={<NotFound />} />
           </Route>
         </Routes>

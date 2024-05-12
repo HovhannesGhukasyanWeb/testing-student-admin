@@ -19,22 +19,22 @@ export default [
         items: [
             {
                 title: "Students",
-                path: "/students",
+                path: "/manager/students",
                 icon: "Users",
             },
             {
                 title: "Groups",
-                path: "/groups",
+                path: "/manager/groups",
                 icon: "Group",
             },
             {
                 title: "Teachers",
-                path: "/teachers",
+                path: "/manager/teachers",
                 icon: "Users",
             },
             {
                 title: "Subjects",
-                path: "/subjects",
+                path: "/manager/subjects",
                 icon: "NotebookText",
             }
         ]
