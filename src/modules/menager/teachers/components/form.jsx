@@ -1,67 +1,48 @@
+import { useState } from "react";
+import Input from "../../../../ui/input";
+import Label from "../../../../ui/label";
+import Button from "../../../../ui/button";
+import { Loader2 } from "lucide-react";
 import PropTypes from 'prop-types';
-import Label from '../../../../ui/label';
-import Input from '../../../../ui/input';
-import { useEffect, useState } from 'react';
-import baseApi from '../../../../apis/baseApi';
-import { getAxiosConfig } from '../../../../apis/config';
-import Select from 'react-select';
-import Button from '../../../../ui/button';
-import { Loader2 } from 'lucide-react';
 import toast from 'react-hot-toast';
-import { useDispatch } from 'react-redux';
-import { fetchData } from '../../../../store/slices/tableSlice';
-import handleError from '../../../../helpers/handleError';
-import { storeApi, updateApi } from '../../../../apis/baseCrudApi';
+import { storeApi, updateApi } from "../../../../apis/baseCrudApi";
+import { useDispatch } from "react-redux";
+import { fetchData } from "../../../../store/slices/tableSlice";
+import handleError from "../../../../helpers/handleError";
 
-const Form = ({ user = null, closeModal = () => { } }) => {
+const Form = ({ teacher = null, closeModal = () => { } }) => {
     const dataInitialState = {
-        username: user?.username ?? '',
-        email: user?.email ?? '',
+        username: teacher?.username ?? '',
+        email: teacher?.email ?? '',
         password: '',
-        role_id: user?.role.id ?? null,
         user_profile: {
-            first_name: user?.user_profile?.first_name ?? '',
-            middle_name: user?.user_profile?.middle_name ?? '',
-            last_name: user?.user_profile?.last_name ?? '',
+            first_name: teacher?.user_profile?.first_name ?? '',
+            middle_name: teacher?.user_profile?.middle_name ?? '',
+            last_name: teacher?.user_profile?.last_name ?? '',
         }
     }
     const [data, setData] = useState(dataInitialState);
     const [loading, setLoading] = useState(false);
-    const [roles, setRoles] = useState([]);
     const dispatch = useDispatch();
-
-    useEffect(() => {
-        (async () => {
-            const { data: response } = await baseApi.get('/admin/roles', getAxiosConfig());
-            const roles = response.data.map(role => {
-                return {
-                    value: role.id,
-                    label: role.name
-                }
-            });
-            setRoles(roles);
-        })();
-    }, []);
 
     const saveHandler = async (e) => {
         e.preventDefault();
         try {
             setLoading(true);
-            if (user) {
-                await updateApi(`/admin/users/${user.id}`, {...data, password: data.password ? data.password : undefined});
-
-                toast.success("User updated successfully", {
+            if (teacher) {
+                await updateApi(`/manager/teachers/${teacher.id}`, {...data, password: data.password ? data.password : undefined});
+                toast.success("Subject updated successfully", {
                     position: "top-right"
                 });
             } else {
-                await storeApi(`/admin/users`, data);
-                toast.success("User created successfully", {
+                await storeApi('/manager/teachers', data);
+                toast.success("Subject created successfully", {
                     position: "top-right"
                 });
             }
             closeModal();
-            setData(dataInitialState);
-            dispatch(fetchData({ endpoint: "/admin/users", params: { include: 'role&userProfile' } }))
+
+            dispatch(fetchData({ endpoint: "/manager/teachers", params: { include: 'userProfile' } }));
         } catch (error) {
             handleError(error);
         } finally {
@@ -160,22 +141,6 @@ const Form = ({ user = null, closeModal = () => { } }) => {
                     />
                 </div>
                 <div>
-                    <Label
-                        htmlFor='role'
-                        required={true}
-                    >
-                        Role
-                    </Label>
-                    <Select
-                        name='role_id'
-                        id='role'
-                        options={roles}
-                        value={roles.find(role => role.value === data.role_id)}
-                        onChange={(selectedRole) => setData({ ...data, role_id: selectedRole.value })}
-                        isClearable={false}
-                    />
-                </div>
-                <div>
                     <Button
                         type='submit'
                         variant='primary'
@@ -187,13 +152,13 @@ const Form = ({ user = null, closeModal = () => { } }) => {
                     </Button>
                 </div>
             </div>
-
         </form>
-    )
+    );
 }
 
+
 Form.propTypes = {
-    user: PropTypes.object,
+    teacher: PropTypes.object,
     closeModal: PropTypes.func,
 }
 

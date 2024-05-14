@@ -1,21 +1,18 @@
 import { useState } from "react";
-import Input from "../../../../components/ui/input";
-import Label from "../../../../components/ui/label";
-import Button from "../../../../components/ui/button";
+import Input from "../../../../ui/input";
+import Label from "../../../../ui/label";
+import Button from "../../../../ui/button";
 import { Loader2 } from "lucide-react";
 import PropTypes from 'prop-types';
 import toast from 'react-hot-toast';
 import { storeApi, updateApi } from "../../../../apis/baseCrudApi";
-import { AxiosError } from "axios";
 import { useDispatch } from "react-redux";
 import { fetchData } from "../../../../store/slices/tableSlice";
-import { useSearchParams } from "react-router-dom";
+import handleError from "../../../../helpers/handleError";
 
 const Form = ({subject = null, closeModal = () => { }}) => {
     const [name, setName] = useState(subject?.name || '');
-    const [errors, setErrors] = useState({});
     const [loading, setLoading] = useState(false);
-    let [searchParams] = useSearchParams();
     const dispatch = useDispatch();
 
     const saveHandler = async (e) => {
@@ -29,24 +26,17 @@ const Form = ({subject = null, closeModal = () => { }}) => {
                 });
             }else{
                 await storeApi('/manager/subjects', {name});
-                setErrors({});
                 toast.success("Subject created successfully", {
                     position: "top-right"
                 });
             }
-            setLoading(false);
             closeModal();
 
-            const limit = 10;
-            const page = searchParams.get("page") || 1;
-            const search = searchParams.get("search") || null;
-            dispatch(fetchData({ endpoint: "/manager/subjects", params: { limit, page, search } }));
-
+            dispatch(fetchData({ endpoint: "/manager/subjects"}));
         }catch(error){
-            if (error instanceof AxiosError && error.response.status === 422) {
-                setErrors(error?.response?.data?.errors || error?.response?.data?.message || 'Something want wrong');
-                setLoading(false);
-            }
+            handleError(error);
+        } finally {
+            setLoading(false);
         }
     }
 
@@ -65,7 +55,6 @@ const Form = ({subject = null, closeModal = () => { }}) => {
                         name='name'
                         value={name}
                         onChange={e => setName(e.target.value)}
-                        errorMessage={errors?.name}
                     />
                 </div>
                 <div>

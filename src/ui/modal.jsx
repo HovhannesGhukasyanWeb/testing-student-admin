@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import { X } from 'lucide-react';
-import useOutsideClick from "../../hooks/useOutsideClick";
+import useOutsideClick from "../hooks/useOutsideClick";
 import { useRef } from 'react';
 
 const Modal = ({

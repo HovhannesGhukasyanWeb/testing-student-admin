@@ -1,13 +1,13 @@
 import { useEffect } from "react";
-import Search from "./components/search";
 import { useSearchParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchData } from "../../../store/slices/tableSlice";
 import Actions from "./components/action";
-import Table from "../../../components/ui/table";
+import Table from '../../../components/table';
 import {changeDateFormat} from '../../../helpers/changeDateFormat';
-import CreateModal from "../../../components/module/modals/createModal";
 import Form from "./components/form";
+import Search from "../../../components/search";
+import CreateModal from "../../../components/modals/createModal";
 
 const ManagerSubjectsModule = () => {
     const { data: subjects, total, loading } = useSelector(state => state.table);
@@ -16,10 +16,7 @@ const ManagerSubjectsModule = () => {
 
     useEffect(() => {
         (async () => {
-            const limit = 10;
-            const page = searchParams.get("page") || 1;
-            const search = searchParams.get("search") || null;
-            dispatch(fetchData({ endpoint: "/manager/subjects", params: { limit, page, search } }));
+            dispatch(fetchData({ endpoint: "/manager/subjects"}));
         })();
     }, [searchParams, dispatch]);
 

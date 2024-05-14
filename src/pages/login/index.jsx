@@ -1,8 +1,8 @@
 import { useState } from "react";
 import baseApi from "../../apis/baseApi";
-import Button from "../../components/ui/button";
-import Input from "../../components/ui/input";
-import Label from "../../components/ui/label";
+import Button from "../../ui/button";
+import Input from "../../ui/input";
+import Label from "../../ui/label";
 import { AxiosError } from "axios";
 import toast from "react-hot-toast";
 import { getAxiosConfig } from "../../apis/config";
