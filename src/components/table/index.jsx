@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import Column from './column';
-import Pagination from '../../../ui/pagination';
+import Pagination from '../../ui/pagination';
 
 const Table = ({
     columns,

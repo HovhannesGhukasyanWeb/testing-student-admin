@@ -1,12 +1,12 @@
 import { useEffect } from "react";
-import Table from "../../../components/module/table";
+import Table from "../../../components/table";
 import Actions from "./components/actions";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchData } from "../../../store/slices/tableSlice";
-import CreateModal from "../../../components/module/modals/createModal";
 import Form from "./components/form";
 import Search from "../../../components/search";
 import { useSearchParams } from "react-router-dom";
+import CreateModal from "../../../components/modals/createModal";
 
 
 const Users = () => {

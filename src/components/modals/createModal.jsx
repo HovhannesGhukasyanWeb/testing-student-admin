@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Plus } from "lucide-react";
-import Modal from "../../../ui/modal";
-import Button from "../../../ui/button";
+import Modal from "../../ui/modal";
+import Button from "../../ui/button";
 import PropTypes from 'prop-types';
 
 const CreateModal = (prop) => {

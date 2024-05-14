@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import Edit from './edit'
-import DeleteModal from '../../../../components/module/modals/deleteModal';
+import DeleteModal from '../../../../components/modals/deleteModal';
 
 const Actions = ({ user }) => {
     return (

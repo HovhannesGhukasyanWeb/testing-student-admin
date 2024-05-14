@@ -4,10 +4,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchData } from "../../../store/slices/tableSlice";
 import { changeDateFormat } from "../../../helpers/changeDateFormat";
 import Search from "../../../components/search";
-import Table from '../../../components/module/table';
+import Table from '../../../components/table';
 import Form from "./components/form";
-import CreateModal from "../../../components/module/modals/createModal";
 import Actions from "./components/actions";
+import CreateModal from "../../../components/modals/createModal";
 
 const ManagerTeachersModule = () => {
 

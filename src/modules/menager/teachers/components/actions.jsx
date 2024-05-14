@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
-import DeleteModal from '../../../../components/module/modals/deleteModal';
 import Edit from './edit';
+import DeleteModal from '../../../../components/modals/deleteModal';
 
 const Actions = ({ teacher }) => {
     return (
