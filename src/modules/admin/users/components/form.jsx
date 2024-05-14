@@ -1,49 +1,34 @@
 import PropTypes from 'prop-types';
-import Label from '../../components/ui/label';
-import Input from '../../components/ui/input';
+import Label from '../../../../components/ui/label';
+import Input from '../../../../components/ui/input';
 import { useEffect, useState } from 'react';
-import baseApi from '../../apis/baseApi';
-import { getAxiosConfig } from '../../apis/config';
+import baseApi from '../../../../apis/baseApi';
+import { getAxiosConfig } from '../../../../apis/config';
 import Select from 'react-select';
-import Button from '../../components/ui/button';
-import { store, update } from '../../apis/users';
-import { AxiosError } from 'axios';
+import Button from '../../../../components/ui/button';
+import { store, update } from './../api';
 import { Loader2 } from 'lucide-react';
 import toast from 'react-hot-toast';
-import { useSearchParams } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { fetchData } from '../../store/slices/tableSlice';
-
-const errorsInitialState = {
-    first_name: null,
-    middle_name: null,
-    last_name: null,
-    username: null,
-    email: null,
-    password: null,
-    role_id: null,
-};
-
-
+import { fetchData } from '../../../../store/slices/tableSlice';
+import handleError from '../../../../helpers/handleError';
 
 const Form = ({ user = null, closeModal = () => { } }) => {
     const dataInitialState = {
-        username: user.username ?? '',
-        email: user.email ?? '',
+        username: user?.username ?? '',
+        email: user?.email ?? '',
         password: '',
-        role_id: user.role.id ?? null,
+        role_id: user?.role.id ?? null,
         user_profile: {
-            first_name: user.user_profile.first_name ?? '',
-            middle_name: user.user_profile.middle_name ?? '',
-            last_name: user.user_profile.last_name ?? '',
+            first_name: user?.user_profile?.first_name ?? '',
+            middle_name: user?.user_profile?.middle_name ?? '',
+            last_name: user?.user_profile?.last_name ?? '',
         }
     }
     const isEditing = user !== null ? true : false;
     const [data, setData] = useState(dataInitialState);
-    const [errors, setErrors] = useState(errorsInitialState);
     const [loading, setLoading] = useState(false);
     const [roles, setRoles] = useState([]);
-    let [searchParams] = useSearchParams();
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -63,7 +48,6 @@ const Form = ({ user = null, closeModal = () => { } }) => {
         e.preventDefault();
         try {
             setLoading(true);
-            setErrors(errorsInitialState);
             if (isEditing) {
                 await update(user.id, data);
                 toast.success("User updated successfully", {
@@ -75,33 +59,11 @@ const Form = ({ user = null, closeModal = () => { } }) => {
                     position: "top-right"
                 });
             }
-
             closeModal();
             setData(dataInitialState);
-            const limit = 10;
-            const page = searchParams.get("page") || 1;
-            const search = searchParams.get("search") || null;
-            dispatch(fetchData({ endpoint: "/admin/users", params: { limit, page, search, include: 'role&userProfile' } }))
+            dispatch(fetchData({ endpoint: "/admin/users", params: { include: 'role&userProfile' } }))
         } catch (error) {
-            if (error instanceof AxiosError) {
-                if (error.response.status === 422) {
-                    const errors = {};
-                    Object.keys(error.response.data.errors).forEach((errorKey) => {
-                        let errorName = errorKey;
-                        if (errorName.includes('.')) {
-                            errorName = errorName.split('.')[1];
-                        }
-
-                        errors[errorName] = error.response.data.errors[errorKey][0];
-                    })
-                    setErrors(errors);
-                    return;
-                }
-            }
-
-            toast.error("Something went wrong. Please try later.", {
-                position: "top-right"
-            });
+            handleError(error);
         } finally {
             setLoading(false);
         }
@@ -123,7 +85,6 @@ const Form = ({ user = null, closeModal = () => { } }) => {
                             name='first_name'
                             value={data.user_profile.first_name}
                             onChange={(e) => setData({ ...data, user_profile: { ...data.user_profile, first_name: e.target.value } })}
-                            errorMessage={errors.first_name}
                         />
                     </div>
                     <div className='w-1/3'>
@@ -138,7 +99,6 @@ const Form = ({ user = null, closeModal = () => { } }) => {
                             name='middle_name'
                             value={data.user_profile.middle_name}
                             onChange={(e) => setData({ ...data, user_profile: { ...data.user_profile, middle_name: e.target.value } })}
-                            errorMessage={errors.middle_name}
                         />
                     </div>
                     <div className='w-1/3'>
@@ -153,7 +113,6 @@ const Form = ({ user = null, closeModal = () => { } }) => {
                             name='last_name'
                             value={data.user_profile.last_name}
                             onChange={(e) => setData({ ...data, user_profile: { ...data.user_profile, last_name: e.target.value } })}
-                            errorMessage={errors.last_name}
                         />
                     </div>
                 </div>
@@ -169,7 +128,6 @@ const Form = ({ user = null, closeModal = () => { } }) => {
                         name='username'
                         value={data.username}
                         onChange={(e) => setData({ ...data, username: e.target.value })}
-                        errorMessage={errors.username}
                     />
                 </div>
                 <div>
@@ -184,7 +142,6 @@ const Form = ({ user = null, closeModal = () => { } }) => {
                         name='email'
                         value={data.email}
                         onChange={(e) => setData({ ...data, email: e.target.value })}
-                        errorMessage={errors.email}
                     />
                 </div>
                 <div>
@@ -200,7 +157,6 @@ const Form = ({ user = null, closeModal = () => { } }) => {
                         type='password'
                         value={data.password}
                         onChange={(e) => setData({ ...data, password: e.target.value })}
-                        errorMessage={errors.password}
                     />
                 </div>
                 <div>
@@ -218,7 +174,6 @@ const Form = ({ user = null, closeModal = () => { } }) => {
                         onChange={(selectedRole) => setData({ ...data, role_id: selectedRole.value })}
                         isClearable={false}
                     />
-                    {errors.role_id && <span className="text-red-500 text-xs mt-1 ml-1">{errors.role_id}</span>}
                 </div>
                 <div>
                     <Button

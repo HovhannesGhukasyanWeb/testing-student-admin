@@ -1,7 +1,7 @@
 import { useState } from "react";
-import Button from "../../components/ui/button";
+import Button from "../../../../components/ui/button";
 import { Plus } from "lucide-react";
-import Modal from "../../components/ui/modal";
+import Modal from "../../../../components/ui/modal";
 import Form from './form';
 
 const Create = () => {

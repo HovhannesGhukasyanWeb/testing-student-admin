@@ -1,17 +1,15 @@
-import Button from "../../components/ui/button";
+import Button from "../../../../components/ui/button";
 import PropTypes from 'prop-types';
 import { useState } from 'react';
-import ConfirmDialog from "../../components/ui/confirm-dialog";
-import { remove as removeUser } from '../../apis/users'
+import ConfirmDialog from "../../../../components/ui/confirm-dialog";
+import { remove as removeUser } from '../api'
 import { AxiosError } from "axios";
 import toast from 'react-hot-toast';
 import { useDispatch } from "react-redux";
-import { fetchData } from "../../store/slices/tableSlice";
-import { useSearchParams } from "react-router-dom";
+import { fetchData } from "../../../../store/slices/tableSlice";
 
 const Delete = ({ user }) => {
     const [showDialog, setShowDialog] = useState(false);
-    const [searchParams] = useSearchParams();
     const dispatch = useDispatch();
     const handleDelete = () => {
         setShowDialog(true);
@@ -24,13 +22,7 @@ const Delete = ({ user }) => {
                 position: 'top-right'
             });
             setShowDialog(false);
-
-
-
-            const limit = 10;
-            const page = searchParams.get("page") || 1;
-            const search = searchParams.get("search") || null;
-            dispatch(fetchData({ endpoint: "/admin/users", params: { limit, page, search, include: 'role&userProfile' } }))
+            dispatch(fetchData({ endpoint: "/admin/users", params: { include: 'role&userProfile' } }))
         } catch (error) {
             if (error instanceof AxiosError) {
                 toast.error('Something went wrong. Please try later.');

@@ -11,7 +11,7 @@ const Home = React.lazy(() => import('./pages/home'));
 const Layout = React.lazy(() => import('./layout'));
 const NotFound = React.lazy(() => import('./pages/not-found'));
 const Login = React.lazy(() => import('./pages/login'));
-const Users = React.lazy(() => import('./pages/users'));
+const Users = React.lazy(() => import('./pages/admin/users'));
 const ManagerSubjects = React.lazy(() => import('./pages/manager/subjects'));
 
 function App() {

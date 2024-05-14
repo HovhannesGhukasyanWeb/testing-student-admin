@@ -11,8 +11,6 @@ const Modal = ({
 }) => {
     const ref = useRef();
     useOutsideClick(ref, onClose);
-
-
     window.addEventListener('keydown', (e) => {
         if (e.key === 'Escape') {
             onClose();
