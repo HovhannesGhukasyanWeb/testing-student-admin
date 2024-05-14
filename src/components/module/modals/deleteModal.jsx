@@ -5,8 +5,8 @@ import { useDispatch } from "react-redux";
 import { removeApi } from "../../../apis/baseCrudApi";
 import { fetchData } from "../../../store/slices/tableSlice";
 import handleError from "../../../helpers/handleError";
-import Button from "../../ui/button";
-import ConfirmDialog from "../../ui/confirm-dialog";
+import Button from "../../../ui/button";
+import ConfirmDialog from "../../../ui/confirm-dialog";
 
 const DeleteModal = ({ id, message, endpoint, params }) => {
 

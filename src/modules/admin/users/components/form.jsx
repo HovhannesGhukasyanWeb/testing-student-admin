@@ -1,11 +1,11 @@
 import PropTypes from 'prop-types';
-import Label from '../../../../components/ui/label';
-import Input from '../../../../components/ui/input';
+import Label from '../../../../ui/label';
+import Input from '../../../../ui/input';
 import { useEffect, useState } from 'react';
 import baseApi from '../../../../apis/baseApi';
 import { getAxiosConfig } from '../../../../apis/config';
 import Select from 'react-select';
-import Button from '../../../../components/ui/button';
+import Button from '../../../../ui/button';
 import { Loader2 } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { useDispatch } from 'react-redux';

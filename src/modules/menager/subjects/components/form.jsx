@@ -1,7 +1,7 @@
 import { useState } from "react";
-import Input from "../../../../components/ui/input";
-import Label from "../../../../components/ui/label";
-import Button from "../../../../components/ui/button";
+import Input from "../../../../ui/input";
+import Label from "../../../../ui/label";
+import Button from "../../../../ui/button";
 import { Loader2 } from "lucide-react";
 import PropTypes from 'prop-types';
 import toast from 'react-hot-toast';

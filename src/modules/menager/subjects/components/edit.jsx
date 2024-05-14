@@ -1,6 +1,6 @@
 import { useState } from "react";
-import Button from "../../../../components/ui/button";
-import Modal from "../../../../components/ui/modal";
+import Button from "../../../../ui/button";
+import Modal from "../../../../ui/modal";
 import Form from "./form";
 import PropTypes from 'prop-types';
 
