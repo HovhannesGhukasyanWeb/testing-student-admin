@@ -1,8 +1,12 @@
+import PropTypes from 'prop-types';
+import DeleteModal from '../../../../components/module/modals/deleteModal';
+import Edit from './edit';
+
 const Actions = ({ teacher }) => {
     return (
         <div className="p-2 flex items-center gap-2">
-            {/* <Delete subject={subject} />
-            <Edit subject={subject} /> */}
+            <DeleteModal id={teacher.id} message={`You are removing teacher ${teacher.username}. This action is unrevertable.`} endpoint={'/manager/teachers'} params={{ include: 'userProfile' }} />
+            <Edit teacher={teacher} />
         </div>
     );
 }

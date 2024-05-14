@@ -6,38 +6,44 @@ import { Loader2 } from "lucide-react";
 import PropTypes from 'prop-types';
 import toast from 'react-hot-toast';
 import { storeApi, updateApi } from "../../../../apis/baseCrudApi";
-import { AxiosError } from "axios";
 import { useDispatch } from "react-redux";
 import { fetchData } from "../../../../store/slices/tableSlice";
-import { useSearchParams } from "react-router-dom";
 import handleError from "../../../../helpers/handleError";
 
-const Form = ({subject = null, closeModal = () => { }}) => {
-    const [name, setName] = useState(subject?.name || '');
-    const [errors, setErrors] = useState({});
+const Form = ({ teacher = null, closeModal = () => { } }) => {
+    const dataInitialState = {
+        username: teacher?.username ?? '',
+        email: teacher?.email ?? '',
+        password: '',
+        user_profile: {
+            first_name: teacher?.user_profile?.first_name ?? '',
+            middle_name: teacher?.user_profile?.middle_name ?? '',
+            last_name: teacher?.user_profile?.last_name ?? '',
+        }
+    }
+    const [data, setData] = useState(dataInitialState);
     const [loading, setLoading] = useState(false);
-    let [searchParams] = useSearchParams();
     const dispatch = useDispatch();
 
     const saveHandler = async (e) => {
         e.preventDefault();
-        try{
+        try {
             setLoading(true);
-            if(subject){
-                await updateApi(`/manager/teachers/${subject.id}`, {name});
+            if (teacher) {
+                await updateApi(`/manager/teachers/${teacher.id}`, {...data, password: data.password ? data.password : undefined});
                 toast.success("Subject updated successfully", {
                     position: "top-right"
                 });
-            }else{
-                await storeApi('/manager/teachers', {name});
+            } else {
+                await storeApi('/manager/teachers', data);
                 toast.success("Subject created successfully", {
                     position: "top-right"
                 });
             }
             closeModal();
 
-            dispatch(fetchData({ endpoint: "/manager/teachers"}));
-        }catch(error){
+            dispatch(fetchData({ endpoint: "/manager/teachers", params: { include: 'userProfile' } }));
+        } catch (error) {
             handleError(error);
         } finally {
             setLoading(false);
@@ -47,19 +53,91 @@ const Form = ({subject = null, closeModal = () => { }}) => {
     return (
         <form onSubmit={saveHandler} className='p-2'>
             <div className='space-y-4'>
-                <div className="w-full">
+                <div className='flex items-start gap-2'>
+                    <div className='w-1/3'>
+                        <Label
+                            htmlFor='first_name'
+                            required={true}
+                        >
+                            First Name
+                        </Label>
+                        <Input
+                            id="first_name"
+                            name='first_name'
+                            value={data.user_profile.first_name}
+                            onChange={(e) => setData({ ...data, user_profile: { ...data.user_profile, first_name: e.target.value } })}
+                        />
+                    </div>
+                    <div className='w-1/3'>
+                        <Label
+                            htmlFor='middle_name'
+                            required={true}
+                        >
+                            Middle name
+                        </Label>
+                        <Input
+                            id="middle_name"
+                            name='middle_name'
+                            value={data.user_profile.middle_name}
+                            onChange={(e) => setData({ ...data, user_profile: { ...data.user_profile, middle_name: e.target.value } })}
+                        />
+                    </div>
+                    <div className='w-1/3'>
+                        <Label
+                            htmlFor='last_name'
+                            required={true}
+                        >
+                            Last Name
+                        </Label>
+                        <Input
+                            id="last_name"
+                            name='last_name'
+                            value={data.user_profile.last_name}
+                            onChange={(e) => setData({ ...data, user_profile: { ...data.user_profile, last_name: e.target.value } })}
+                        />
+                    </div>
+                </div>
+                <div>
                     <Label
-                        htmlFor='name'
+                        htmlFor='username'
                         required={true}
                     >
-                        Name
+                        Username
                     </Label>
                     <Input
-                        id="name"
-                        name='name'
-                        value={name}
-                        onChange={e => setName(e.target.value)}
-                        errorMessage={errors?.name}
+                        id="username"
+                        name='username'
+                        value={data.username}
+                        onChange={(e) => setData({ ...data, username: e.target.value })}
+                    />
+                </div>
+                <div>
+                    <Label
+                        htmlFor='email'
+                        required={true}
+                    >
+                        Email
+                    </Label>
+                    <Input
+                        id="email"
+                        name='email'
+                        value={data.email}
+                        onChange={(e) => setData({ ...data, email: e.target.value })}
+                    />
+                </div>
+                <div>
+                    <Label
+                        htmlFor='password'
+                        required={true}
+                    >
+                        Password
+                    </Label>
+                    <Input
+                        id="password"
+                        name='password'
+                        type='password'
+                        value={data.password}
+                        onChange={(e) => setData({ ...data, password: e.target.value })}
                     />
                 </div>
                 <div>
@@ -80,7 +158,7 @@ const Form = ({subject = null, closeModal = () => { }}) => {
 
 
 Form.propTypes = {
-    subject: PropTypes.any,
+    teacher: PropTypes.object,
     closeModal: PropTypes.func,
 }
 

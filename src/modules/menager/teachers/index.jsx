@@ -3,11 +3,11 @@ import { useSearchParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchData } from "../../../store/slices/tableSlice";
 import { changeDateFormat } from "../../../helpers/changeDateFormat";
-import Actions from "../subjects/components/action";
 import Search from "../../../components/search";
 import Table from '../../../components/module/table';
 import Form from "./components/form";
 import CreateModal from "../../../components/module/modals/createModal";
+import Actions from "./components/actions";
 
 const ManagerTeachersModule = () => {
 
@@ -17,7 +17,7 @@ const ManagerTeachersModule = () => {
 
     useEffect(() => {
         (async() => {
-            dispatch(fetchData({ endpoint: "/manager/teachers"}));
+            dispatch(fetchData({ endpoint: "/manager/teachers", params: { include: 'userProfile' }}));
         })();
     },[searchParams, dispatch]);
 
@@ -35,7 +35,8 @@ const ManagerTeachersModule = () => {
                     data={teachers}
                     columns={[
                         { title: "ID", render: (teacher) => teacher.id },
-                        { title: "Name", render: (teacher) => teacher.name },
+                        { title: "Name", render: (teacher) => teacher.username },
+                        { title: "Email", render: (teacher) => teacher.email },
                         { title: "Date", render: (teacher) => changeDateFormat(teacher.created_at) },
                         { title: "Actions", render: (teacher) => <Actions teacher={teacher} /> },
                     ]}

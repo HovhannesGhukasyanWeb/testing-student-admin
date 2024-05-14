@@ -4,7 +4,7 @@ import Modal from "../../../../components/ui/modal";
 import Form from "./form";
 import PropTypes from 'prop-types';
 
-const Edit = ({subject}) => {
+const Edit = ({teacher}) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
 
     return(
@@ -18,9 +18,9 @@ const Edit = ({subject}) => {
                 isModalOpen && (
                     <Modal
                         onClose={() => setIsModalOpen(false)}
-                        title={"Edit subject"}
+                        title={"Edit teacher"}
                     >
-                        <Form subject={subject} closeModal={() => setIsModalOpen(false)} />
+                        <Form teacher={teacher} closeModal={() => setIsModalOpen(false)} />
                     </Modal>
                 )
             }
@@ -28,7 +28,7 @@ const Edit = ({subject}) => {
     );
 }
 Edit.propTypes = {
-    subject: PropTypes.object.isRequired,
+    teacher: PropTypes.object.isRequired,
 }
 
 export default Edit;
