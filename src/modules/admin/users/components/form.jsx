@@ -6,12 +6,12 @@ import baseApi from '../../../../apis/baseApi';
 import { getAxiosConfig } from '../../../../apis/config';
 import Select from 'react-select';
 import Button from '../../../../components/ui/button';
-import { store, update } from './../api';
 import { Loader2 } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { useDispatch } from 'react-redux';
 import { fetchData } from '../../../../store/slices/tableSlice';
 import handleError from '../../../../helpers/handleError';
+import { storeApi, updateApi } from '../../../../apis/baseCrudApi';
 
 const Form = ({ user = null, closeModal = () => { } }) => {
     const dataInitialState = {
@@ -25,7 +25,6 @@ const Form = ({ user = null, closeModal = () => { } }) => {
             last_name: user?.user_profile?.last_name ?? '',
         }
     }
-    const isEditing = user !== null ? true : false;
     const [data, setData] = useState(dataInitialState);
     const [loading, setLoading] = useState(false);
     const [roles, setRoles] = useState([]);
@@ -48,13 +47,14 @@ const Form = ({ user = null, closeModal = () => { } }) => {
         e.preventDefault();
         try {
             setLoading(true);
-            if (isEditing) {
-                await update(user.id, data);
+            if (user) {
+                await updateApi(`/admin/users/${user.id}`, {...data, password: data.password ? data.password : undefined});
+
                 toast.success("User updated successfully", {
                     position: "top-right"
                 });
             } else {
-                await store(data);
+                await storeApi(`/admin/users`, data);
                 toast.success("User created successfully", {
                     position: "top-right"
                 });
