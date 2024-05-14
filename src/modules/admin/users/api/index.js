@@ -1,5 +1,5 @@
-import baseApi from "./baseApi"
-import { getAxiosConfig } from "./config";
+import { getAxiosConfig } from "../../../../apis/config";
+import baseApi from "../../../../apis/baseApi"
 
 
 export const get = async ({ limit = 10, search = null, page = 1, sortBy = 'id', sortDir = 'asc' }) => {

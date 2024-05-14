@@ -1,9 +1,9 @@
 import PropTypes from 'prop-types';
 
 import { useState } from "react";
-import Modal from '../../components/ui/modal';
+import Modal from '../../../../components/ui/modal';
 import Form from './form';
-import Button from '../../components/ui/button';
+import Button from '../../../../components/ui/button';
 
 const Edit = ({ user }) => {
     const [isModalOpen, setIsModalOpen] = useState(false);

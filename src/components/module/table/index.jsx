@@ -1,13 +1,12 @@
 import PropTypes from 'prop-types';
 import Column from './column';
-import Pagination from '../pagination';
+import Pagination from '../../ui/pagination';
 
 const Table = ({
     columns,
     data,
     total,
     loading = false,
-    actions = null,
 }) => {
 
     return (
@@ -57,7 +56,6 @@ Table.propTypes = {
     columns: PropTypes.array.isRequired,
     data: PropTypes.array.isRequired,
     loading: PropTypes.bool,
-    actions: PropTypes.element,
     total: PropTypes.number,
 }
 

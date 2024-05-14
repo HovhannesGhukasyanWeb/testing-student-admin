@@ -11,7 +11,19 @@ const initialState = {
 export const fetchData = createAsyncThunk(
     'table/fetchData',
     async ({ endpoint, params }) => {
-        const response = await baseApi.get(endpoint, { ...getAxiosConfig(), params });
+        const searchParams = new URLSearchParams(window.location.search);
+        const page = searchParams.get("page") || 1;
+        const limit = searchParams.get("perPage") || 10;
+        const search = searchParams.get("search") || null;
+
+        const response = await baseApi.get(endpoint, {
+            ...getAxiosConfig(), params: {
+                ...params,
+                page,
+                limit,
+                search
+            }
+        });
         return response.data;
     }
 );

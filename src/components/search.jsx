@@ -1,6 +1,6 @@
 import { useSearchParams } from "react-router-dom";
-import Input from "../../../../components/ui/input";
 import { SearchIcon } from "lucide-react";
+import Input from "./ui/input";
 
 const Search = () => {
     let [searchParams, setSearchParams] = useSearchParams();

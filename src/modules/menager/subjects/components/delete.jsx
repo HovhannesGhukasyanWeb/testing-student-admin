@@ -2,17 +2,15 @@ import { useState } from "react";
 import Button from "../../../../components/ui/button";
 import ConfirmDialog from "../../../../components/ui/confirm-dialog";
 import PropTypes from 'prop-types';
-import { AxiosError } from "axios";
 import toast from 'react-hot-toast';
 import { removeApi } from "../../../../apis/baseCrudApi";
 import { useDispatch } from "react-redux";
-import { useSearchParams } from "react-router-dom";
 import { fetchData } from "../../../../store/slices/tableSlice";
+import handleError from "../../../../helpers/handleError";
 
 const Delete = ({subject}) => {
 
     const [showDialog, setShowDialog] = useState(false);
-    let [searchParams] = useSearchParams();
     const dispatch = useDispatch();
 
     const handleDelete = () => {
@@ -27,16 +25,9 @@ const Delete = ({subject}) => {
             });
             setShowDialog(false);
 
-            const limit = 10;
-            const page = searchParams.get("page") || 1;
-            const search = searchParams.get("search") || null;
-            dispatch(fetchData({ endpoint: "/manager/subjects", params: { limit, page, search } }));
-
+            dispatch(fetchData({ endpoint: "/manager/subjects"}));
         }catch(error) {
-            if (error instanceof AxiosError) {
-                toast.error('Something went wrong. Please try later.');
-                return;
-            }
+            handleError(error);
         }
     }
 

@@ -1,25 +1,20 @@
-import Create from "./create";
 import { useEffect } from "react";
-import { useSearchParams } from "react-router-dom";
-import Search from './search';
-import Table from "../../components/ui/table";
-import Actions from "./actions";
+import Search from './components/search';
+import Create from "./components/create";
+import Table from "../../../components/module/table";
+import Actions from "./components/actions";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchData } from "../../store/slices/tableSlice";
+import { fetchData } from "../../../store/slices/tableSlice";
 
 
 const Users = () => {
     const { data: users, total, loading } = useSelector(state => state.table);
-    let [searchParams] = useSearchParams();
     const dispatch = useDispatch();
     useEffect(() => {
         (async () => {
-            const limit = 10;
-            const page = searchParams.get("page") || 1;
-            const search = searchParams.get("search") || null;
-            dispatch(fetchData({ endpoint: "/admin/users", params: { limit, page, include: 'role&userProfile', search } }));
+            dispatch(fetchData({ endpoint: "/admin/users", params: { include: 'role&userProfile' } }));
         })();
-    }, [searchParams, dispatch]);
+    }, [dispatch]);
 
     return (
         <div className="w-full">

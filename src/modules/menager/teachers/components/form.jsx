@@ -6,13 +6,17 @@ import { Loader2 } from "lucide-react";
 import PropTypes from 'prop-types';
 import toast from 'react-hot-toast';
 import { storeApi, updateApi } from "../../../../apis/baseCrudApi";
+import { AxiosError } from "axios";
 import { useDispatch } from "react-redux";
 import { fetchData } from "../../../../store/slices/tableSlice";
+import { useSearchParams } from "react-router-dom";
 import handleError from "../../../../helpers/handleError";
 
 const Form = ({subject = null, closeModal = () => { }}) => {
     const [name, setName] = useState(subject?.name || '');
+    const [errors, setErrors] = useState({});
     const [loading, setLoading] = useState(false);
+    let [searchParams] = useSearchParams();
     const dispatch = useDispatch();
 
     const saveHandler = async (e) => {
@@ -20,19 +24,19 @@ const Form = ({subject = null, closeModal = () => { }}) => {
         try{
             setLoading(true);
             if(subject){
-                await updateApi(`/manager/subjects/${subject.id}`, {name});
+                await updateApi(`/manager/teachers/${subject.id}`, {name});
                 toast.success("Subject updated successfully", {
                     position: "top-right"
                 });
             }else{
-                await storeApi('/manager/subjects', {name});
+                await storeApi('/manager/teachers', {name});
                 toast.success("Subject created successfully", {
                     position: "top-right"
                 });
             }
             closeModal();
 
-            dispatch(fetchData({ endpoint: "/manager/subjects"}));
+            dispatch(fetchData({ endpoint: "/manager/teachers"}));
         }catch(error){
             handleError(error);
         } finally {
@@ -55,6 +59,7 @@ const Form = ({subject = null, closeModal = () => { }}) => {
                         name='name'
                         value={name}
                         onChange={e => setName(e.target.value)}
+                        errorMessage={errors?.name}
                     />
                 </div>
                 <div>
