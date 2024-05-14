@@ -3,7 +3,7 @@ import Input from "../../components/ui/input";
 import { Search as SearchIcon } from 'lucide-react';
 
 const Search = () => {
-    const [searchParams, setSearchParams] = useSearchParams();
+    let [searchParams, setSearchParams] = useSearchParams();
 
     const handleSearch = (e) => {
         e.preventDefault();

@@ -5,8 +5,9 @@ import Modal from '../../components/ui/modal';
 import Form from './form';
 import Button from '../../components/ui/button';
 
-const Edit = ({ user }) => {
+const Edit = ({ role }) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
+
     return (
         <div>
             <Button variant='warning' onClick={() => setIsModalOpen(true)}>
@@ -17,10 +18,10 @@ const Edit = ({ user }) => {
                 isModalOpen && (
                     <Modal
                         onClose={() => setIsModalOpen(false)}
-                        title={"Edit user"}
+                        title={"Edit role"}
 
                     >
-                        <Form user={user} closeModal={() => setIsModalOpen(false)} />
+                        <Form id={role.id} closeModal={() => setIsModalOpen(false)} />
                     </Modal>
                 )
             }
@@ -29,7 +30,7 @@ const Edit = ({ user }) => {
 }
 
 Edit.propTypes = {
-    user: PropTypes.object.isRequired,
+    role: PropTypes.object.isRequired,
 }
 
 export default Edit;

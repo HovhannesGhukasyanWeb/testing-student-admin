@@ -8,9 +8,9 @@ export default [
                 icon: "User",
             },
             {
-                title: "Personal",
-                path: "/personal",
-                icon: "Users",
+                title: "Roles",
+                path: "/roles",
+                icon: "UserCog",
             },
         ],
     },

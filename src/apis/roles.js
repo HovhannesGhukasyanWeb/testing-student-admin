@@ -1,11 +1,12 @@
 import baseApi from "./baseApi";
+import { getAxiosConfig } from "./config";
 
 export const get = async () => {
     return await baseApi.get("/api/admin/roles");
 }
 
 export const show = async (id) => {
-    return await baseApi.get(`/api/admin/roles/${id}`);
+    return await baseApi.get(`/api/admin/roles/${id}`, { ...getAxiosConfig(), params: { include: 'rolePermissions' } });
 }
 
 export const store = async (data) => {
