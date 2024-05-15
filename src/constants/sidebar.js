@@ -4,12 +4,12 @@ export default [
         items: [
             {
                 title: "Users",
-                path: "/users",
+                path: "/admin/users",
                 icon: "User",
             },
             {
                 title: "Roles",
-                path: "/roles",
+                path: "/admin/roles",
                 icon: "UserCog",
             },
         ],
