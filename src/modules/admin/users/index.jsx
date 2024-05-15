@@ -5,19 +5,18 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchData } from "../../../store/slices/tableSlice";
 import Form from "./components/form";
 import Search from "../../../components/search";
-import { useSearchParams } from "react-router-dom";
-import CreateModal from "../../../components/modals/createModal";
+import FormModal from "../../../components/modals/formModal";
+import params from "./utils/params";
 
 
 const Users = () => {
     const { data: users, total, loading } = useSelector(state => state.table);
     const dispatch = useDispatch();
-    let [searchParams] = useSearchParams();
     useEffect(() => {
         (async () => {
-            dispatch(fetchData({ endpoint: "/admin/users", params: { include: 'role&userProfile' } }));
+            dispatch(fetchData({ endpoint: "/admin/users", params }));
         })();
-    }, [searchParams, dispatch]);
+    }, [dispatch]);
 
     const FormComponent = () => <Form/>;
 
@@ -26,7 +25,7 @@ const Users = () => {
             <div className="p-2 w-full">
                 <div className="flex items-center justify-between w-full">
                     <Search />
-                    <CreateModal buttonText='add Subject' component={FormComponent} />
+                    <FormModal buttonText='Create User' component={FormComponent} />
                 </div>
 
                 <div className="mt-4 w-full">
