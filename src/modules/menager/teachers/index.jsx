@@ -7,7 +7,8 @@ import Search from "../../../components/search";
 import Table from '../../../components/table';
 import Form from "./components/form";
 import Actions from "./components/actions";
-import CreateModal from "../../../components/modals/createModal";
+import { getDatas } from "./api";
+import OpenModalForm from "../../../components/modals/openModalForm";
 
 const ManagerTeachersModule = () => {
 
@@ -17,7 +18,7 @@ const ManagerTeachersModule = () => {
 
     useEffect(() => {
         (async() => {
-            dispatch(fetchData({ endpoint: "/manager/teachers", params: { include: 'userProfile' }}));
+            dispatch(getDatas());
         })();
     },[searchParams, dispatch]);
 
@@ -27,7 +28,7 @@ const ManagerTeachersModule = () => {
         <div className="p-2 w-full">
             <div className="flex items-center justify-between w-full">
                 <Search />
-                <CreateModal buttonText='add Subject' component={FormComponent} />
+                <OpenModalForm title="Create Teacher" buttonText='add teacher' component={FormComponent} />
             </div>
 
             <div className="mt-4">
