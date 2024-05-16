@@ -19,7 +19,7 @@ const TeacherSubjects = ({teacher}) => {
                         onClose={() => setIsModalOpen(false)}
                         title={"Update subjects"}
                     >
-                        <TeacherSubjectsForm teacher={teacher}/>
+                        <TeacherSubjectsForm teacher={teacher} closeModal={() => setIsModalOpen(false)}/>
                     </Modal>
                 )
             }

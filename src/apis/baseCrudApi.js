@@ -2,8 +2,8 @@ import baseApi from "./baseApi"
 import { getAxiosConfig } from "./config";
 
 
-export const getApi = async (endPoint, { limit = 10, search = null, page = 1, sortBy = 'id', sortDir = 'asc' }) => {
-    return await baseApi.get(endPoint, { ...getAxiosConfig(), params: { limit, search, page, sortBy, sortDir } });
+export const getApi = async (endPoint, params = null) => {
+    return await baseApi.get(endPoint, { ...getAxiosConfig(), params});
 }
 
 export const showApi = async (endPoint, params) => {

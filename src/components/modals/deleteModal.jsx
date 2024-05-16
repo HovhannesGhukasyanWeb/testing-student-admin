@@ -1,12 +1,12 @@
 import { useState } from "react";
 import PropTypes from 'prop-types';
-import toast from 'react-hot-toast';
 import { useDispatch } from "react-redux";
 import { removeApi } from "../../apis/baseCrudApi";
 import { fetchData } from "../../store/slices/tableSlice";
 import handleError from "../../helpers/handleError";
 import Button from "../../ui/button";
 import ConfirmDialog from "../../ui/confirm-dialog";
+import { successAlert } from "../../helpers/alertMessage";
 
 const DeleteModal = ({ id, message, endpoint, params }) => {
 
@@ -20,9 +20,7 @@ const DeleteModal = ({ id, message, endpoint, params }) => {
     const remove = async () => {
         try {
             await removeApi(`${endpoint}/${id}`);
-            toast.success('Removed successfully', {
-                position: 'top-right'
-            });
+            successAlert('Removed successfully');
             setShowDialog(false);
 
             dispatch(fetchData({ endpoint, params }));

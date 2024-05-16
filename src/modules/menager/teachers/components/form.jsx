@@ -4,11 +4,11 @@ import Label from "../../../../ui/label";
 import Button from "../../../../ui/button";
 import { Loader2 } from "lucide-react";
 import PropTypes from 'prop-types';
-import toast from 'react-hot-toast';
 import { storeApi, updateApi } from "../../../../apis/baseCrudApi";
 import { useDispatch } from "react-redux";
-import { fetchData } from "../../../../store/slices/tableSlice";
 import handleError from "../../../../helpers/handleError";
+import { getDatas } from "../api";
+import { successAlert } from "../../../../helpers/alertMessage";
 
 const Form = ({ teacher = null, closeModal = () => { } }) => {
     const dataInitialState = {
@@ -31,18 +31,13 @@ const Form = ({ teacher = null, closeModal = () => { } }) => {
             setLoading(true);
             if (teacher) {
                 await updateApi(`/manager/teachers/${teacher.id}`, {...data, password: data.password ? data.password : undefined});
-                toast.success("Subject updated successfully", {
-                    position: "top-right"
-                });
+                successAlert("Teacher updated successfully");
             } else {
                 await storeApi('/manager/teachers', data);
-                toast.success("Subject created successfully", {
-                    position: "top-right"
-                });
+                successAlert("Teacher created successfully");
             }
             closeModal();
-
-            dispatch(fetchData({ endpoint: "/manager/teachers", params: { include: 'userProfile' } }));
+            dispatch(getDatas());
         } catch (error) {
             handleError(error);
         } finally {

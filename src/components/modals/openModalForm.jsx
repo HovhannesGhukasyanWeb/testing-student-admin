@@ -4,10 +4,11 @@ import Modal from "../../ui/modal";
 import Button from "../../ui/button";
 import PropTypes from 'prop-types';
 
-const CreateModal = (prop) => {
+const OpenModalForm = (prop) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
 
     const Form = prop.component;
+    
     return(
         <div>
             <Button className="mr-2 flex items-center gap-2" onClick={() => setIsModalOpen(true)}>
@@ -16,7 +17,7 @@ const CreateModal = (prop) => {
             </Button>
 
             {isModalOpen && (
-                <Modal onClose={() => setIsModalOpen(false)} title="Create subject">
+                <Modal onClose={() => setIsModalOpen(false)} title={prop.title}>
                     <Form closeModal={() => setIsModalOpen(false)}/>
                 </Modal>
             )}
@@ -24,9 +25,10 @@ const CreateModal = (prop) => {
     );
 }
 
-CreateModal.propTypes = {
-    buttonText: PropTypes.string,
-    component: PropTypes.any
+OpenModalForm.propTypes = {
+    buttonText: PropTypes.string.isRequired,
+    title: PropTypes.string.isRequired,
+    component: PropTypes.any.isRequired
 }
 
-export default CreateModal;
+export default OpenModalForm;

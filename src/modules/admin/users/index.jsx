@@ -6,7 +6,7 @@ import { fetchData } from "../../../store/slices/tableSlice";
 import Form from "./components/form";
 import Search from "../../../components/search";
 import { useSearchParams } from "react-router-dom";
-import CreateModal from "../../../components/modals/createModal";
+import OpenModalForm from "../../../components/modals/openModalForm";
 
 
 const Users = () => {
@@ -26,7 +26,7 @@ const Users = () => {
             <div className="p-2 w-full">
                 <div className="flex items-center justify-between w-full">
                     <Search />
-                    <CreateModal buttonText='add Subject' component={FormComponent} />
+                    <OpenModalForm title="Create User" buttonText='add user' component={FormComponent} />
                 </div>
 
                 <div className="mt-4 w-full">

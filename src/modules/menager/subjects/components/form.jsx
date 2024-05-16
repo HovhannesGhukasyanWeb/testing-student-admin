@@ -4,11 +4,11 @@ import Label from "../../../../ui/label";
 import Button from "../../../../ui/button";
 import { Loader2 } from "lucide-react";
 import PropTypes from 'prop-types';
-import toast from 'react-hot-toast';
 import { storeApi, updateApi } from "../../../../apis/baseCrudApi";
 import { useDispatch } from "react-redux";
 import { fetchData } from "../../../../store/slices/tableSlice";
 import handleError from "../../../../helpers/handleError";
+import { successAlert } from "../../../../helpers/alertMessage";
 
 const Form = ({subject = null, closeModal = () => { }}) => {
     const [name, setName] = useState(subject?.name || '');
@@ -21,14 +21,10 @@ const Form = ({subject = null, closeModal = () => { }}) => {
             setLoading(true);
             if(subject){
                 await updateApi(`/manager/subjects/${subject.id}`, {name});
-                toast.success("Subject updated successfully", {
-                    position: "top-right"
-                });
+                successAlert("Subject updated successfully");
             }else{
                 await storeApi('/manager/subjects', {name});
-                toast.success("Subject created successfully", {
-                    position: "top-right"
-                });
+                successAlert("Subject created successfully");
             }
             closeModal();
 

@@ -7,11 +7,11 @@ import { getAxiosConfig } from '../../../../apis/config';
 import Select from 'react-select';
 import Button from '../../../../ui/button';
 import { Loader2 } from 'lucide-react';
-import toast from 'react-hot-toast';
 import { useDispatch } from 'react-redux';
 import { fetchData } from '../../../../store/slices/tableSlice';
 import handleError from '../../../../helpers/handleError';
 import { storeApi, updateApi } from '../../../../apis/baseCrudApi';
+import { successAlert } from '../../../../helpers/alertMessage';
 
 const Form = ({ user = null, closeModal = () => { } }) => {
     const dataInitialState = {
@@ -49,15 +49,10 @@ const Form = ({ user = null, closeModal = () => { } }) => {
             setLoading(true);
             if (user) {
                 await updateApi(`/admin/users/${user.id}`, {...data, password: data.password ? data.password : undefined});
-
-                toast.success("User updated successfully", {
-                    position: "top-right"
-                });
+                successAlert("User updated successfully");
             } else {
                 await storeApi(`/admin/users`, data);
-                toast.success("User created successfully", {
-                    position: "top-right"
-                });
+                successAlert("User created successfully");
             }
             closeModal();
             setData(dataInitialState);
