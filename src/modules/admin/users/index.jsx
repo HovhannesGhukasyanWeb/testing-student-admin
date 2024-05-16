@@ -7,17 +7,17 @@ import Form from "./components/form";
 import Search from "../../../components/search";
 import { useSearchParams } from "react-router-dom";
 import OpenModalForm from "../../../components/modals/openModalForm";
+import params from "./utils/params";
 
 
 const Users = () => {
     const { data: users, total, loading } = useSelector(state => state.table);
     const dispatch = useDispatch();
-    let [searchParams] = useSearchParams();
     useEffect(() => {
         (async () => {
-            dispatch(fetchData({ endpoint: "/admin/users", params: { include: 'role&userProfile' } }));
+            dispatch(fetchData({ endpoint: "/admin/users", params }));
         })();
-    }, [searchParams, dispatch]);
+    }, [dispatch, useSearchParams]);
 
     const FormComponent = () => <Form/>;
 

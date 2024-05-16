@@ -12,6 +12,7 @@ import { fetchData } from '../../../../store/slices/tableSlice';
 import handleError from '../../../../helpers/handleError';
 import { storeApi, updateApi } from '../../../../apis/baseCrudApi';
 import { successAlert } from '../../../../helpers/alertMessage';
+import params from '../utils/params';
 
 const Form = ({ user = null, closeModal = () => { } }) => {
     const dataInitialState = {
@@ -56,7 +57,7 @@ const Form = ({ user = null, closeModal = () => { } }) => {
             }
             closeModal();
             setData(dataInitialState);
-            dispatch(fetchData({ endpoint: "/admin/users", params: { include: 'role&userProfile' } }))
+            dispatch(fetchData({ endpoint: "/admin/users", params }))
         } catch (error) {
             handleError(error);
         } finally {
