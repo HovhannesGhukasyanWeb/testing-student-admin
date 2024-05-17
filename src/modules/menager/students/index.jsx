@@ -8,6 +8,7 @@ import Form from "./components/form";
 import OpenModalForm from "../../../components/modals/openModalForm";
 import { changeDateFormat } from "../../../helpers/changeDateFormat";
 import { userFullName } from "../../../helpers/user";
+import Actions from "./components/actions";
 
 const ManagerStudents = () => {
     const dispatch = useDispatch();
