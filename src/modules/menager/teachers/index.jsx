@@ -1,7 +1,6 @@
 import { useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchData } from "../../../store/slices/tableSlice";
 import { changeDateFormat } from "../../../helpers/changeDateFormat";
 import Search from "../../../components/search";
 import Table from '../../../components/table';
