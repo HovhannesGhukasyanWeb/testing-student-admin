@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useReducer, useState } from "react";
 import Input from "../../../../ui/input";
 import Label from "../../../../ui/label";
 import Button from "../../../../ui/button";
@@ -6,20 +6,38 @@ import { Loader2 } from "lucide-react";
 import PropTypes from 'prop-types';
 import { storeApi, updateApi } from "../../../../apis/baseCrudApi";
 import { useDispatch } from "react-redux";
-import { fetchData } from "../../../../store/slices/tableSlice";
 import handleError from "../../../../helpers/handleError";
 import { successAlert } from "../../../../helpers/alertMessage";
 import { getDatas, getGroupType, getGroups, getTeachers } from "../api";
 import { transformArrayForGroupTypeSelect, transformArrayForTeacherSelect } from "../helpers/parseData";
 import Select from 'react-select'
+import { reducer } from "../helpers/reducer";
 
 const Form = ({ group = null, closeModal = () => { } }) => {
+    
+    const initialState = {
+        name: group?.name || '',
+        description: group?.description || '',
+        teachers: [],
+        groupTypes: [],
+        groups: [],
+        loading: false,
+        selectedDatas: {
+            head_teacher: group?.techer ? { value: group.techer.id, label: group.techer.username } : null, 
+            parent_group: group?.parent ? { value: group.parent.id, label: group.parent.name } : null, 
+            group_types: group?.group_type ? { value: group.group_type.id, label: group.group_type.name } : null, 
+        }
+    };
+
+    const [formState, formDispatch] = useReducer(reducer, initialState);
+
+
+    console.log(formState);
     const [name, setName] = useState(group?.name || '');
     const [description, setDescription] = useState(group?.description || '');
     const [teachers, setTeachers] = useState([]);
     const [groupTypes, setGroupTypes] = useState([]);
     const [groups, setGroups] = useState([]);
-    const [loading, setLoading] = useState(false);
     const [selectedDatas, setSelectedDatas] = useState(
         {
             user_id: group?.techer ? group?.techer?.id : null,
@@ -27,11 +45,6 @@ const Form = ({ group = null, closeModal = () => { } }) => {
             group_type_id: group?.group_type ? group.group_type?.id : null
         }
     );
-    const selectedDefaultValue = {
-        group_types: group?.group_type ? { value: group.group_type.id, label: group.group_type.name } : null,
-        parent_group: group?.parent ? { value: group.parent.id, label: group.parent.name } : null,
-        head_teacher: group?.techer ? { value: group.techer.id, label: group.techer.username } : null,
-    };
 
     const dispatch = useDispatch();
 
@@ -43,7 +56,6 @@ const Form = ({ group = null, closeModal = () => { } }) => {
             setGroupTypes(groupTypesData);
             let groupData = transformArrayForGroupTypeSelect(await getGroups());
             setGroups(groupData);
-            console.log(selectedDefaultValue);
         })();
     }, []);
 
@@ -52,10 +64,10 @@ const Form = ({ group = null, closeModal = () => { } }) => {
         try {
             setLoading(true);
             if (group) {
-                await updateApi(`/manager/groups/${group.id}`, { ...selectedDatas, name, description });
+                await updateApi(`/manager/groups/${group.id}`, { ...formState.selectedDatas, name: formState.selectedDatas.name, description: formState.selectedDatas.description });
                 successAlert("Subject updated successfully");
             } else {
-                await storeApi('/manager/groups', { ...selectedDatas, name, description });
+                await storeApi('/manager/groups', { ...formState.selectedDatas, name: formState.selectedDatas.name, description: formState.selectedDatas.description });
                 successAlert("Subject created successfully");
             }
             closeModal();
@@ -110,8 +122,8 @@ const Form = ({ group = null, closeModal = () => { } }) => {
                         id="group_types"
                         name="group_types"
                         options={groupTypes}
-                        defaultValue={selectedDefaultValue.group_types}
-                        onChange={(value) => setSelectedDatas({ ...selectedDatas, group_type_id: value.value })}
+                        value={formState.selectedDatas.group_types}
+                        // onChange={(value) => setSelectedDatas({ ...selectedDatas, group_type_id: value.value })}
                     />
                 </div>
                 <div className="w-full">
@@ -125,8 +137,8 @@ const Form = ({ group = null, closeModal = () => { } }) => {
                         id="parent_group"
                         name="parent_group"
                         options={groups}
-                        defaultValue={selectedDefaultValue.parent_group}
-                        onChange={(value) => { setSelectedDatas({ ...selectedDatas, parent_id: value.value }) }}
+                        value={formState.selectedDatas.parent_group}
+                        // onChange={(value) => { setSelectedDatas({ ...selectedDatas, parent_id: value.value }) }}
                     />
                 </div>
                 <div className="w-full">
@@ -141,8 +153,8 @@ const Form = ({ group = null, closeModal = () => { } }) => {
                         id="head_teacher"
                         name="head_teacher"
                         options={teachers}
-                        defaultValue={selectedDefaultValue.head_teacher}
-                        onChange={(value) => setSelectedDatas({ ...selectedDatas, user_id: value.value })}
+                        value={formState.selectedDatas.head_teacher}
+                        // onChange={(value) => setSelectedDatas({ ...selectedDatas, user_id: value.value })}
                     />
                 </div>
                 <div>
@@ -150,9 +162,9 @@ const Form = ({ group = null, closeModal = () => { } }) => {
                         type='submit'
                         variant='primary'
                         className='w-full flex items-center gap-2 justify-center'
-                        disabled={loading}
+                        disabled={formState.loading}
                     >
-                        {loading && <Loader2 className='animate-spin w-4 h-4' />}
+                        {formState.loading && <Loader2 className='animate-spin w-4 h-4' />}
                         Save
                     </Button>
                 </div>
