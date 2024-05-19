@@ -43,7 +43,7 @@ const Form = ({ role = null }) => {
     useEffect(() => {
         if (isEditing) {
             const rolePermissions = role.role_permissions;
-            const permissionIds = rolePermissions.map(rolePermission => rolePermission.id);
+            const permissionIds = rolePermissions.map(rolePermission => rolePermission.permission_id);
             setChecked(permissionIds);
         }
     }, [isEditing, role]);
@@ -70,7 +70,7 @@ const Form = ({ role = null }) => {
             if (checked.length) {
                 await storeApi('/admin/rolePermissions', {
                     role_id: newRole.id,
-                    permission_ids: checked.map(check => +check),
+                    permission_ids: checked,
                 })
             }
 
