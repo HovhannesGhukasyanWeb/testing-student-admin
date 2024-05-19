@@ -3,10 +3,12 @@ import DeleteModal from '../../../../components/modals/deleteModal';
 import FormModal from '../../../../components/modals/formModal';
 import Form from './form';
 import { endpoint, params } from '../utils';
+import TeacherSubjectsForm from './teacherSubjectsForm';
 
 const Actions = ({ group }) => {
 
     const FormComponent = () => <Form group={group} />;
+    const TeacherSubjectsFormComponent = () => <TeacherSubjectsForm group={group} />;
 
     return (
         <div className="p-2 flex items-center gap-2">
@@ -15,12 +17,18 @@ const Actions = ({ group }) => {
                 component={FormComponent}
                 edit={true}
             />
+            <FormModal
+                component={TeacherSubjectsFormComponent}
+                title='teacher subjects'
+                buttonText='teacher subjects'
+                edit={true}
+            />
         </div>
     );
 }
 
 Actions.propTypes = {
-    student: PropTypes.object.isRequired,
+    group: PropTypes.object.isRequired,
 }
 
 export default Actions

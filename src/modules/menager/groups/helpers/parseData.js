@@ -11,3 +11,10 @@ export const transformArrayForGroupTypeSelect = (array) => {
         label: item.name
     }));
 };
+
+export const transformArrayForSubjectsSelect = (array) => {
+    return array.map(item => ({
+        value: item.id,
+        label: item.name
+    }));
+};
