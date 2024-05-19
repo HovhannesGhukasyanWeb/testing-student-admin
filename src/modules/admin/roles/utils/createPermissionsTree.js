@@ -1,33 +1,62 @@
 
 
 export default (permissions) => {
-    const permissionsTree = {
-        title: 'Permissions',
-        children: [],
-    };
+    let newPermissions = permissions.filter(permission => permission.type == "menu")
+    let subPermissions = permissions.filter(permission => permission.type == "sub_menu")
+    // console.log(Object.groupBy(newPermissions, ({ title }) => title))
+    // console.log("subpermissions => ", Object.groupBy(subPermissions, ({ title }) => title))
 
-    permissions.forEach(({ title, name }) => {
-        const [parent, child] = title.split('.');
+    newPermissions.forEach(parentPermission => {
+        const page = parentPermission.page;
 
-        const parentIndex = permissionsTree.children.findIndex(({ title }) => title === parent);
-
-        if (parentIndex === -1) {
-            permissionsTree.children.push({
-                title: parent,
-                children: [
-                    {
-                        title: child,
-                        name,
-                    },
-                ],
-            });
-        } else {
-            permissionsTree.children[parentIndex].children.push({
-                title: child,
-                name,
-            });
+        if (page == "/") {
+            return;
         }
+
+        subPermissions.forEach((subPermission) => {
+            if (subPermission.page.startsWith(page)) {
+                if (!parentPermission?.children) {
+                    parentPermission.children = [];
+                }
+
+                parentPermission.children.push(subPermission)
+            }
+        })
+
+        parentPermission.children = Object.groupBy(parentPermission.children, ({ title }) => title)
     });
 
-    return permissionsTree;
+
+
+    return newPermissions.map((newPermission) => {
+        return {
+            label: newPermission.title,
+            value: newPermission.title + "-" + newPermission.page,
+            children: mapGrouppedChildren(newPermission?.children)
+        }
+    })
+}
+
+const mapGrouppedChildren = (children = []) => {
+    const newChildren = [];
+    Object.keys(children).map((childrenKey) => {
+        const childItem = children[childrenKey];
+        const page = childItem[0].page;
+        const newChildItem = {
+            label: childrenKey,
+            value: childrenKey + "-" + page,
+            children: []
+        }
+
+        childItem.forEach(child => {
+            newChildItem.children.push({
+                label: child.method,
+                value: child.id,
+            })
+        })
+
+        newChildren.push(newChildItem);
+    })
+
+    return newChildren;
 }

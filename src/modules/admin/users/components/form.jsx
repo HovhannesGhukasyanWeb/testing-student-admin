@@ -49,8 +49,7 @@ const Form = ({ user = null, closeModal = () => { } }) => {
         try {
             setLoading(true);
             if (user) {
-                await updateApi(`/admin/users/${user.id}`, {...data, password: data.password ? data.password : undefined});
-
+                await updateApi(`/admin/users/${user.id}`, { ...data, password: data.password ? data.password : undefined });
                 toast.success("User updated successfully", {
                     position: "top-right"
                 });

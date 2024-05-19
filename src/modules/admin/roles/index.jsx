@@ -18,8 +18,6 @@ const Page = () => {
         })();
     }, [dispatch]);
 
-    console.log(roles)
-
     const FormComponent = () => <Form />;
 
     return (
@@ -27,7 +25,7 @@ const Page = () => {
             <div className="p-2 w-full">
                 <div className="flex items-center justify-between w-full">
                     <Search />
-                    <FormModal buttonText='Create Role' component={FormComponent} />
+                    <FormModal buttonText='Create role' component={FormComponent} />
                 </div>
 
                 <div className="mt-4 w-full">
