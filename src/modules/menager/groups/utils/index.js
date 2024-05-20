@@ -1,5 +1,5 @@
 export const params = {
-    include: 'parent&techer&groupType&groupUsers&groupTeacherSubject&groupTeacherSubject.teacher&groupTeacherSubject.subject'
+    include: 'parent&teacher&groupType&groupUsers&groupTeacherSubject&groupTeacherSubject.teacher&groupTeacherSubject.subject'
 };
 
 export const endpoint = '/manager/groups';
