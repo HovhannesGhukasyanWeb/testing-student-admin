@@ -6,6 +6,7 @@ import {
   Route,
   Navigate,
 } from "react-router-dom";
+import Roles from "./pages/admin/roles";
 
 const Home = React.lazy(() => import('./pages/home'));
 const Layout = React.lazy(() => import('./layout'));
@@ -23,20 +24,31 @@ const MainRouter = () => {
       <Router basename="/">
         <Suspense fallback={null}>
           <Routes>
+            {/* auth routes */}
             <Route path="/login">
               <Route
                 index
                 element={isAuthenticated ? <Navigate to="/" /> : <Login />}
               />
-              {/* <Route path="reset-password" element={<ResetPassword />} /> */}
             </Route>
   
+            {/* middleware for auth and layout */}
             <Route
               path="/"
               element={isAuthenticated ? <Layout /> : <Navigate to="/login" />}
             >
+
+              {/* admin routes */}
               <Route index element={<Home />} />;
-              <Route path="/users" element={<Users />} />
+              <Route
+                path="admin"
+              >
+                <Route path="users" element={<Users />} />
+                <Route path="roles" element={<Roles />} />
+              </Route>
+              {/* end admin routes */}
+
+              {/* manager routes */}
               <Route path="/manager/subjects" element={<ManagerSubjects />} />
               <Route path="/manager/teachers" element={<ManagerTeachers />} />
               <Route path="/manager/students" element={<ManagerStudents />} />
