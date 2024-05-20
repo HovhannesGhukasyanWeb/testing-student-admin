@@ -7,7 +7,7 @@ import Table from '../../../components/table';
 import {changeDateFormat} from '../../../helpers/changeDateFormat';
 import Form from "./components/form";
 import Search from "../../../components/search";
-import CreateModal from "../../../components/modals/createModal";
+import OpenModalForm from "../../../components/modals/openModalForm";
 
 const ManagerSubjectsModule = () => {
     const { data: subjects, total, loading } = useSelector(state => state.table);
@@ -26,7 +26,7 @@ const ManagerSubjectsModule = () => {
             <div className="p-2 w-full">
                 <div className="flex items-center justify-between w-full">
                     <Search />
-                    <CreateModal buttonText='add Subject' component={FormComponent} />
+                    <OpenModalForm title="Create Subject" buttonText='add Subject' component={FormComponent} />
                 </div>
 
                 <div className="mt-4">

@@ -9,16 +9,20 @@ import { useDispatch } from "react-redux";
 import handleError from "../../../../helpers/handleError";
 import { getDatas } from "../api";
 import { successAlert } from "../../../../helpers/alertMessage";
+import { parseStudentEditData } from "../helpers/parseStudentData";
+import { endpoint } from "../utils";
 
-const Form = ({ teacher = null, closeModal = () => { } }) => {
+const Form = ({ student = null, closeModal = () => { } }) => {
     const dataInitialState = {
-        username: teacher?.username ?? '',
-        email: teacher?.email ?? '',
+        username: student?.username ?? '',
+        email: student?.email ?? '',
         password: '',
         user_profile: {
-            first_name: teacher?.user_profile?.first_name ?? '',
-            middle_name: teacher?.user_profile?.middle_name ?? '',
-            last_name: teacher?.user_profile?.last_name ?? '',
+            first_name: student?.user_profile?.first_name ?? '',
+            middle_name: student?.user_profile?.middle_name ?? '',
+            last_name: student?.user_profile?.last_name ?? '',
+            age: student?.user_profile?.age ?? '',
+            courses: student?.user_profile?.courses ?? '',
         }
     }
     const [data, setData] = useState(dataInitialState);
@@ -29,12 +33,12 @@ const Form = ({ teacher = null, closeModal = () => { } }) => {
         e.preventDefault();
         try {
             setLoading(true);
-            if (teacher) {
-                await updateApi(`/manager/teachers/${teacher.id}`, {...data, password: data.password ? data.password : undefined});
-                successAlert("Teacher updated successfully");
+            if (student) {
+                await updateApi(`${endpoint}/${student.id}`, { ...parseStudentEditData(data) });
+                successAlert("Student updated successfully");
             } else {
-                await storeApi('/manager/teachers', data);
-                successAlert("Teacher created successfully");
+                await storeApi(endpoint, data);
+                successAlert("Student created successfully");
             }
             closeModal();
             dispatch(getDatas());
@@ -89,6 +93,36 @@ const Form = ({ teacher = null, closeModal = () => { } }) => {
                             name='last_name'
                             value={data.user_profile.last_name}
                             onChange={(e) => setData({ ...data, user_profile: { ...data.user_profile, last_name: e.target.value } })}
+                        />
+                    </div>
+                </div>
+                <div className='flex items-start gap-2'>
+                    <div className='w-1/2'>
+                        <Label
+                            htmlFor='middle_name'
+                        >
+                            Age
+                        </Label>
+                        <Input
+                            id="age"
+                            name='age'
+                            type="number"
+                            value={data.user_profile.age}
+                            onChange={(e) => setData({ ...data, user_profile: { ...data.user_profile, age: e.target.value } })}
+                        />
+                    </div>
+                    <div className='w-1/2'>
+                        <Label
+                            htmlFor='middle_name'
+                        >
+                            Courses
+                        </Label>
+                        <Input
+                            id="age"
+                            name='age'
+                            type="number"
+                            value={data.user_profile.courses}
+                            onChange={(e) => setData({ ...data, user_profile: { ...data.user_profile, courses: e.target.value } })}
                         />
                     </div>
                 </div>
@@ -153,7 +187,7 @@ const Form = ({ teacher = null, closeModal = () => { } }) => {
 
 
 Form.propTypes = {
-    teacher: PropTypes.object,
+    student: PropTypes.object,
     closeModal: PropTypes.func,
 }
 

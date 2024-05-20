@@ -9,6 +9,7 @@ import { getAxiosConfig } from "../../apis/config";
 import { useDispatch } from "react-redux";
 import { login } from "../../store/slices/userSlice";
 import { useNavigate } from "react-router-dom";
+import { successAlert } from "../../helpers/alertMessage";
 
 const Login = () => {
     const dispatch = useDispatch();
@@ -40,10 +41,7 @@ const Login = () => {
             user.userProfile = me.user_profile;
 
             dispatch(login(user));
-
-            toast.success("Login successful", {
-                position: "top-right",
-            });
+            successAlert("Login successful");
 
             navigate("/");
         } catch (error) {

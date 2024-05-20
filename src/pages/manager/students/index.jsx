@@ -1,0 +1,1 @@
+export  {default} from '../../../modules/menager/students'

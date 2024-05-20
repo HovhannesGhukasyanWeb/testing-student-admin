@@ -5,7 +5,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchData } from "../../../store/slices/tableSlice";
 import Form from "./components/form";
 import Search from "../../../components/search";
-import FormModal from "../../../components/modals/formModal";
+import { useSearchParams } from "react-router-dom";
+import OpenModalForm from "../../../components/modals/openModalForm";
 import params from "./utils/params";
 
 
@@ -16,7 +17,7 @@ const Users = () => {
         (async () => {
             dispatch(fetchData({ endpoint: "/admin/users", params }));
         })();
-    }, [dispatch]);
+    }, [dispatch, useSearchParams]);
 
     const FormComponent = () => <Form/>;
 
@@ -25,7 +26,7 @@ const Users = () => {
             <div className="p-2 w-full">
                 <div className="flex items-center justify-between w-full">
                     <Search />
-                    <FormModal buttonText='Create User' component={FormComponent} />
+                    <OpenModalForm title="Create User" buttonText='add user' component={FormComponent} />
                 </div>
 
                 <div className="mt-4 w-full">
