@@ -7,6 +7,7 @@ import {
   Navigate,
 } from "react-router-dom";
 import Roles from "./pages/admin/roles";
+import Questions from "./pages/teacher/questions";
 
 const Home = React.lazy(() => import('./pages/home'));
 const Layout = React.lazy(() => import('./layout'));
@@ -53,6 +54,13 @@ const MainRouter = () => {
               <Route path="/manager/teachers" element={<ManagerTeachers />} />
               <Route path="/manager/students" element={<ManagerStudents />} />
               <Route path="/manager/groups" element={<ManagerGroups />} />
+              {/* end manager routes */}
+
+              <Route path="teacher">
+                <Route path="questions" element={<Questions />} />
+              </Route>
+
+              {/* not found */}
               <Route path="*" element={<NotFound/>} />
             </Route>
           </Routes>

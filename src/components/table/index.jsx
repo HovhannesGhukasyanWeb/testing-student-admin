@@ -29,15 +29,25 @@ const Table = ({
                             </td>
                         </tr>
                     ) : (
-                        data.map(row => {
-                            return (
-                                <tr key={`row-${row.id}`}>
-                                    {columns.map((column) => {
-                                        return <td key={`row-${row.id}-${column.render(row)}`}>{column.render(row)}</td>
-                                    })}
+                            data.length === 0 ? (
+                                <tr>
+                                    <td colSpan={columns.length + 1}>
+                                        <div className='w-full flex items-center justify-center p-2'>
+                                            <span>No data found</span>
+                                        </div>
+                                    </td>
                                 </tr>
-                            )
-                        })
+                            ) : (
+                                    data.map(row => {
+                                        return (
+                                            <tr key={`row-${row.id}`}>
+                                                {columns.map((column) => {
+                                                    return <td key={`row-${row.id}-${column.render(row)}`}>{column.render(row)}</td>
+                                                })}
+                                            </tr>
+                                        )
+                                    })
+                                )
                     )}
                 </tbody>
             </table>
