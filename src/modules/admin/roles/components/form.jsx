@@ -4,7 +4,6 @@ import { useState } from 'react';
 import { useEffect } from 'react';
 import baseApi from '../../../../apis/baseApi';
 import { getAxiosConfig } from '../../../../apis/config';
-import toast from 'react-hot-toast';
 import createPermissionsTree from '../utils/createPermissionsTree';
 import 'react-checkbox-tree/lib/react-checkbox-tree.css';
 import CheckboxTree from 'react-checkbox-tree';
@@ -16,6 +15,7 @@ import { storeApi, updateApi } from '../../../../apis/baseCrudApi';
 import { useDispatch } from 'react-redux';
 import { fetchData } from '../../../../store/slices/tableSlice';
 import params from '../utils/params';
+import { errorAlert, successAlert } from '../../../../helpers/alertMessage';
 
 const Form = ({ role = null }) => {
     const isEditing = role !== null;
@@ -33,9 +33,7 @@ const Form = ({ role = null }) => {
                 const permissionsTree = createPermissionsTree(response.data);
                 setPermissionsTree(permissionsTree)
             } catch (error) {
-                toast.error('Failed to fetch permissions', {
-                    position: 'top-right',
-                });
+                errorAlert("Failed to fetch permissions");
             }
         })();
     }, []);
@@ -59,20 +57,18 @@ const Form = ({ role = null }) => {
                     name,
                 });
                 newRole = response.data;
-                toast.success("Role created successfully")
+                successAlert("Role created successfully");
             } else {
                 await updateApi('/admin/roles/' + role.id, {
                     name,
                 });
-                toast.success("Role updated successfully")
+                successAlert("Role updated successfully");
             }
 
-            if (checked.length) {
-                await storeApi('/admin/rolePermissions', {
-                    role_id: newRole.id,
-                    permission_ids: checked,
-                })
-            }
+            await storeApi('/admin/rolePermissions', {
+                role_id: newRole.id,
+                permission_ids: checked,
+            })
 
             dispatch(fetchData({ endpoint: '/admin/roles', params }));
         } catch (error) {

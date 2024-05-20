@@ -5,3 +5,9 @@ export const successAlert = (message) => {
         position: "top-right"
     });
 }
+
+export const errorAlert = (message) => {
+    toast.error(message, {
+        position: "top-right"
+    });
+}
