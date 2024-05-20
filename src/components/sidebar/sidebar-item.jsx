@@ -19,7 +19,7 @@ export default function SidebarItem({ item }) {
                 <span>{item.title}</span>
                 <ChevronLeft className={`w-4 h-4 ${isSidebarItemOpen ? "-rotate-90 transition duration-150" : ""}`} />
             </div>
-            <ul className={`m-4 ml-6 space-y-4 transition duration-75 ${isSidebarItemOpen ? "h-full opacity-100" : "h-0 opacity-0"}`}>
+            <ul className={`transition duration-75  ${isSidebarItemOpen ? "m-4 ml-6 space-y-4  h-full opacity-100" : "h-0 opacity-0 overflow-y-hidden"}`}>
                 {item.items.map((subItem) => {
                     const Icon = icons[subItem.icon];
                     return (

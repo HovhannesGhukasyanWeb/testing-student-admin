@@ -15,7 +15,7 @@ export default [
         ],
     },
     {
-        title: 'manager',
+        title: 'Manager',
         items: [
             {
                 title: "Students",
@@ -37,6 +37,26 @@ export default [
                 path: "/manager/subjects",
                 icon: "NotebookText",
             }
+        ]
+    },
+    {
+        title: "Teacher",
+        items: [
+            {
+                title: "Questions",
+                path: "/teacher/questions",
+                icon: "CircleHelp",
+            },
+            // {
+            //     title: "Groups",
+            //     path: "/teacher/groups",
+            //     icon: "Group",
+            // },
+            // {
+            //     title: "Subjects",
+            //     path: "/teacher/subjects",
+            //     icon: "NotebookText",
+            // }
         ]
     }
 ]

@@ -11,6 +11,8 @@ const Pagination = ({ total }) => {
     const isLastPage = currentPage === totalPages;
     const pages = Array.from({ length: totalPages }, (_, i) => i + 1);
 
+    if (total == 0) return null;
+
     return (
         <div>
             <ul className="gap-3 flex items-center">
