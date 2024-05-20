@@ -20,6 +20,15 @@ export const getTeachers = async () => {
     }
 }
 
+export const getSubjects = async () => {
+    try{
+        const data = await getApi('manager/subjects');
+        return data.data.data;
+    }catch(error){
+        handleError(error);
+    }
+}
+
 export const getGroupType = async () => {
     try{
         const data = await getApi('manager/group_types');

@@ -1,4 +1,4 @@
-import { useEffect, useReducer, useState } from "react";
+import { useEffect, useReducer } from "react";
 import Input from "../../../../ui/input";
 import Label from "../../../../ui/label";
 import Button from "../../../../ui/button";
@@ -11,72 +11,52 @@ import { successAlert } from "../../../../helpers/alertMessage";
 import { getDatas, getGroupType, getGroups, getTeachers } from "../api";
 import { transformArrayForGroupTypeSelect, transformArrayForTeacherSelect } from "../helpers/parseData";
 import Select from 'react-select'
-import { reducer } from "../helpers/reducer";
+import { reducer } from "../actions/form";
+import { endpoint, groupFormActionTypes } from "../utils";
+import { initFormData } from "../helpers/initFormData";
+import { prepearRequestData } from "../helpers/prepearRequestData";
 
 const Form = ({ group = null, closeModal = () => { } }) => {
-    
-    const initialState = {
-        name: group?.name || '',
-        description: group?.description || '',
-        teachers: [],
-        groupTypes: [],
-        groups: [],
-        loading: false,
-        selectedDatas: {
-            head_teacher: group?.techer ? { value: group.techer.id, label: group.techer.username } : null, 
-            parent_group: group?.parent ? { value: group.parent.id, label: group.parent.name } : null, 
-            group_types: group?.group_type ? { value: group.group_type.id, label: group.group_type.name } : null, 
-        }
-    };
 
-    const [formState, formDispatch] = useReducer(reducer, initialState);
-
-
-    console.log(formState);
-    const [name, setName] = useState(group?.name || '');
-    const [description, setDescription] = useState(group?.description || '');
-    const [teachers, setTeachers] = useState([]);
-    const [groupTypes, setGroupTypes] = useState([]);
-    const [groups, setGroups] = useState([]);
-    const [selectedDatas, setSelectedDatas] = useState(
-        {
-            user_id: group?.techer ? group?.techer?.id : null,
-            parent_id: group?.parent ? group?.parent?.id : null,
-            group_type_id: group?.group_type ? group.group_type?.id : null
-        }
-    );
+    const [formState, formDispatch] = useReducer(reducer, initFormData(group));
 
     const dispatch = useDispatch();
 
     useEffect(() => {
         (async () => {
+            formDispatch({ type: groupFormActionTypes.SET_LOADING, payload: { status: true } });
+
             let teachersData = transformArrayForTeacherSelect(await getTeachers());
-            setTeachers(teachersData);
+            formDispatch({ type: groupFormActionTypes.SET_TEACHER, payload: { teachers: teachersData } });
             let groupTypesData = transformArrayForGroupTypeSelect(await getGroupType());
-            setGroupTypes(groupTypesData);
+            formDispatch({ type: groupFormActionTypes.SET_GROUP_TYPES, payload: { groupTypes: groupTypesData } });
             let groupData = transformArrayForGroupTypeSelect(await getGroups());
-            setGroups(groupData);
+            formDispatch({ type: groupFormActionTypes.SET_GROUPS, payload: { groups: groupData } });
+
+            formDispatch({ type: groupFormActionTypes.SET_LOADING, payload: { status: false } });
         })();
     }, []);
 
     const saveHandler = async (e) => {
         e.preventDefault();
         try {
-            setLoading(true);
+            formDispatch({ type: groupFormActionTypes.SET_LOADING, payload: { status: true } });
+
             if (group) {
-                await updateApi(`/manager/groups/${group.id}`, { ...formState.selectedDatas, name: formState.selectedDatas.name, description: formState.selectedDatas.description });
+                await updateApi(`${endpoint}/${group.id}`, prepearRequestData(formState));
                 successAlert("Subject updated successfully");
             } else {
-                await storeApi('/manager/groups', { ...formState.selectedDatas, name: formState.selectedDatas.name, description: formState.selectedDatas.description });
+                await storeApi(endpoint, prepearRequestData(formState));
                 successAlert("Subject created successfully");
             }
+
             closeModal();
 
             dispatch(getDatas());
         } catch (error) {
             handleError(error);
         } finally {
-            setLoading(false);
+            formDispatch({ type: groupFormActionTypes.SET_LOADING, payload: { status: false } });
         }
     }
 
@@ -93,8 +73,8 @@ const Form = ({ group = null, closeModal = () => { } }) => {
                     <Input
                         id="name"
                         name='name'
-                        value={name}
-                        onChange={e => setName(e.target.value)}
+                        value={formState.name}
+                        onChange={e => formDispatch({ type: groupFormActionTypes.SET_NAME, payload: { name: e.target.value } })}
                     />
                 </div>
                 <div className="w-full">
@@ -106,8 +86,8 @@ const Form = ({ group = null, closeModal = () => { } }) => {
                     <Input
                         id="description"
                         name='description'
-                        value={description}
-                        onChange={e => setDescription(e.target.value)}
+                        value={formState.description}
+                        onChange={e => formDispatch({ type: groupFormActionTypes.SET_DESCRIPTION, payload: { description: e.target.value } })}
                     />
                 </div>
                 <div className="w-full">
@@ -121,9 +101,9 @@ const Form = ({ group = null, closeModal = () => { } }) => {
                         isClearable
                         id="group_types"
                         name="group_types"
-                        options={groupTypes}
+                        options={formState.groupTypes}
                         value={formState.selectedDatas.group_types}
-                        // onChange={(value) => setSelectedDatas({ ...selectedDatas, group_type_id: value.value })}
+                        onChange={(value) => formDispatch({ type: groupFormActionTypes.SET_SELECTED_DATAS_GROUP_TYPE, payload: { value } })}
                     />
                 </div>
                 <div className="w-full">
@@ -136,9 +116,9 @@ const Form = ({ group = null, closeModal = () => { } }) => {
                         isClearable
                         id="parent_group"
                         name="parent_group"
-                        options={groups}
+                        options={formState.groups}
                         value={formState.selectedDatas.parent_group}
-                        // onChange={(value) => { setSelectedDatas({ ...selectedDatas, parent_id: value.value }) }}
+                        onChange={(value) => formDispatch({ type: groupFormActionTypes.SET_SELECTED_DATAS_PARENT_GROUP, payload: { value } })}
                     />
                 </div>
                 <div className="w-full">
@@ -152,9 +132,9 @@ const Form = ({ group = null, closeModal = () => { } }) => {
                         isClearable
                         id="head_teacher"
                         name="head_teacher"
-                        options={teachers}
+                        options={formState.teachers}
                         value={formState.selectedDatas.head_teacher}
-                        // onChange={(value) => setSelectedDatas({ ...selectedDatas, user_id: value.value })}
+                        onChange={(value) => formDispatch({ type: groupFormActionTypes.SET_SELECTED_DATAS_HEAD_TEACHER, payload: { value } })}
                     />
                 </div>
                 <div>
