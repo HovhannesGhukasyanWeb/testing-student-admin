@@ -3,6 +3,7 @@ import DeleteModal from '../../../../components/modals/deleteModal';
 import params from '../utils/params';
 import FormModal from '../../../../components/modals/formModal';
 import Form from './form';
+import Show from './show';
 
 const Actions = ({ question }) => {
     const FormComponent = () => (<Form question={question} />)
@@ -15,7 +16,7 @@ const Actions = ({ question }) => {
                 params={params}
             />
             <FormModal edit={true} component={FormComponent} />
-            see
+            <Show question={question} />
         </div>
     )
 }
