@@ -10,7 +10,9 @@ const Layout = () => {
             <div className="bg-white flex" style={{ height: "calc(100% - 69px)" }}>
                 <Sidebar />
                 <Suspense fallback={null}>
-                    <Outlet />
+                    <div className="h-full w-full max-h-full overflow-auto">
+                        <Outlet />
+                    </div>
                 </Suspense>
             </div>
         </div>

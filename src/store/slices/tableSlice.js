@@ -18,10 +18,10 @@ export const fetchData = createAsyncThunk(
 
         const response = await baseApi.get(endpoint, {
             ...getAxiosConfig(), params: {
-                ...params,
                 page,
                 limit,
-                search
+                search,
+                ...params,
             }
         });
         return response.data;

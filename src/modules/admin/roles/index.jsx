@@ -7,16 +7,18 @@ import Search from "../../../components/search";
 import FormModal from "../../../components/modals/formModal";
 import Table from "../../../components/table";
 import Actions from "./components/actions";
+import { useSearchParams } from "react-router-dom";
 
 
 const Page = () => {
     const { data: roles, total, loading } = useSelector(state => state.table);
+    const [searchParams] = useSearchParams();
     const dispatch = useDispatch();
     useEffect(() => {
         (async () => {
-            dispatch(fetchData({ endpoint: "/admin/roles", params }));
+            dispatch(fetchData({ endpoint: "/admin/roles", params: { ...params, search: searchParams.get("search") ?? null } }));
         })();
-    }, [dispatch]);
+    }, [dispatch, searchParams]);
 
     const FormComponent = () => <Form />;
 

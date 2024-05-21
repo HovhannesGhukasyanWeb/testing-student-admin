@@ -13,11 +13,12 @@ import params from "./utils/params";
 const Users = () => {
     const { data: users, total, loading } = useSelector(state => state.table);
     const dispatch = useDispatch();
+    const [searchParams] = useSearchParams();
     useEffect(() => {
         (async () => {
-            dispatch(fetchData({ endpoint: "/admin/users", params }));
+            dispatch(fetchData({ endpoint: "/admin/users", params: { ...params, search: searchParams.get("search") ?? "" } }));
         })();
-    }, [dispatch, useSearchParams]);
+    }, [dispatch, searchParams]);
 
     const FormComponent = () => <Form/>;
 
@@ -26,7 +27,7 @@ const Users = () => {
             <div className="p-2 w-full">
                 <div className="flex items-center justify-between w-full">
                     <Search />
-                    <OpenModalForm title="Create User" buttonText='add user' component={FormComponent} />
+                    <OpenModalForm title="Create User" buttonText='Create User' component={FormComponent} />
                 </div>
 
                 <div className="mt-4 w-full">
