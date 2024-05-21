@@ -19,7 +19,7 @@ const Modal = ({
 
     return (
         <div className="modal">
-            <div className="modal__content max-h-[800px] overflow-y-auto" ref={ref}>
+            <div className="modal__content " ref={ref}>
                 <div className="relative p-2 flex items-center justify-center border-b border-lightgray mb-2">
                     <h2>{title}</h2>
                     <button className='absolute right-0 p-2 hover:text-gray-700' onClick={onClose}>

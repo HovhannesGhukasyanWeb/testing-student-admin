@@ -4,6 +4,7 @@ import FormModal from '../../../../components/modals/formModal';
 import Form from './form';
 import { endpoint, params } from '../utils';
 import TeacherSubjectsForm from './teacherSubjectsForm';
+import Button from '../../../../ui/button';
 
 const Actions = ({ group }) => {
 
@@ -19,10 +20,13 @@ const Actions = ({ group }) => {
             />
             <FormModal
                 component={TeacherSubjectsFormComponent}
-                title='teacher subjects'
+                title='Teacher Subjects'
                 buttonText='teacher subjects'
                 edit={true}
             />
+            <a href={`/manager/groups/${group.id}/students`}>
+                <Button>Show</Button>
+            </a>
         </div>
     );
 }

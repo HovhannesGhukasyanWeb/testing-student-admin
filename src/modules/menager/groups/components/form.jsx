@@ -5,7 +5,6 @@ import Button from "../../../../ui/button";
 import { Loader2 } from "lucide-react";
 import PropTypes from 'prop-types';
 import { storeApi, updateApi } from "../../../../apis/baseCrudApi";
-import { useDispatch } from "react-redux";
 import handleError from "../../../../helpers/handleError";
 import { successAlert } from "../../../../helpers/alertMessage";
 import { getDatas, getGroupType, getGroups, getTeachers } from "../api";
@@ -17,11 +16,7 @@ import { initFormData } from "../helpers/initFormData";
 import { prepearRequestData } from "../helpers/prepearRequestData";
 
 const Form = ({ group = null, closeModal = () => { } }) => {
-
     const [formState, formDispatch] = useReducer(reducer, initFormData(group));
-
-    const dispatch = useDispatch();
-
     useEffect(() => {
         (async () => {
             formDispatch({ type: groupFormActionTypes.SET_LOADING, payload: { status: true } });
@@ -52,7 +47,7 @@ const Form = ({ group = null, closeModal = () => { } }) => {
 
             closeModal();
 
-            dispatch(getDatas());
+            getDatas();
         } catch (error) {
             handleError(error);
         } finally {
