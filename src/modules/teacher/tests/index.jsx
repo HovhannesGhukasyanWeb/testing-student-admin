@@ -7,6 +7,7 @@ import Search from "../../../components/search";
 import FormModal from "../../../components/modals/formModal";
 import Table from "../../../components/table";
 import Form from "./components/form";
+import Actions from "./components/actions";
 
 const Tests = () => {
     const { data: tests, total, loading } = useSelector(state => state.table);
@@ -32,7 +33,11 @@ const Tests = () => {
                     <Table
                         data={tests}
                         columns={[
-                            { title: "ID", render: (role) => role.id },
+                            { title: "ID", render: (test) => test.id },
+                            { title: "Name", render: (test) => test.name },
+                            { title: "Subject", render: (test) => test.subject?.name },
+                            { title: "Test type", render: (test) => test.type?.name },
+                            { title: "Actions", render: (test) => <Actions test={test} /> },
                             // { title: "Name", render: (role) => role.name },
                             // { title: "Actions", render: (role) => <Actions role={role} /> },
                         ]}
