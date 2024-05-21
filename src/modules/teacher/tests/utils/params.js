@@ -1,3 +1,3 @@
 export default {
-    include: "testUsers"
+    include: "testUsers&type&subject",
 }

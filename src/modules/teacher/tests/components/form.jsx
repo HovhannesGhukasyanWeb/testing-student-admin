@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useReducer, useState } from "react";
 import Input from "../../../../ui/input";
 import Label from "../../../../ui/label";
 import baseApi from "../../../../apis/baseApi";
@@ -6,11 +6,22 @@ import { getAxiosConfig } from "../../../../apis/config";
 import Select from 'react-select';
 import Button from "../../../../ui/button";
 import { Loader2 } from "lucide-react";
+import reducer, { actions } from "../utils/reducer";
+import initialState from "../utils/initialState";
+import handleError from "../../../../helpers/handleError";
+import { storeApi, updateApi } from "../../../../apis/baseCrudApi";
+import { successAlert } from "../../../../helpers/alertMessage";
+import { useDispatch } from "react-redux";
+import { fetchData } from "../../../../store/slices/tableSlice";
+import params from "../utils/params";
 
-const Form = () => {
+const Form = ({ test = null }) => {
+    const isEditing = test !== null;
     const [testTypeOptions, setTestTypeOptions] = useState([]);
     const [subjectOptions, setSubjectOptions] = useState([]);
     const [loading, setLoading] = useState(false);
+    const [formState, formDispatch] = useReducer(reducer, initialState());
+    const dispatch = useDispatch();
 
     useEffect(() => {
         (async () => {
@@ -26,8 +37,29 @@ const Form = () => {
         })();
     }, []);
 
+    const saveHandler = async (e) => {
+        e.preventDefault();
+
+        try {
+            setLoading(true);
+
+            if (isEditing) {
+                await updateApi('/teacher/tests/' + test.id, formState);
+                successAlert('Test updated successfully');
+            } else {
+                await storeApi('/teacher/tests', formState);
+                successAlert('Test created successfully');
+            }
+            dispatch(fetchData({ endpoint: "/teacher/tests", params }));
+        } catch (error) {
+            handleError(error);
+        } finally {
+            setLoading(false);
+        }
+    }
+
     return (
-        <form>
+        <form onSubmit={saveHandler}>
             <div className="space-y-4">
                 <div>
                     <Label
@@ -36,7 +68,12 @@ const Form = () => {
                     >
                         Name
                     </Label>
-                    <Input type="text" id="name" />
+                    <Input
+                        type="text"
+                        id="name"
+                        value={formState.name}
+                        onChange={(e) => formDispatch({ type: actions.FIELD, field: 'name', payload: e.target.value })}
+                    />
                 </div>
                 <div>
                     <Label
@@ -48,6 +85,7 @@ const Form = () => {
                     <Select
                         options={subjectOptions}
                         isSearchable={true}
+                        onChange={(selected) => formDispatch({ type: actions.FIELD, field: 'subject_id', payload: selected.value })}
                     />
                 </div>
                 <div>
@@ -60,6 +98,7 @@ const Form = () => {
                     <Select
                         options={testTypeOptions}
                         isSearchable={true}
+                        onChange={(selected) => formDispatch({ type: actions.FIELD, field: 'test_type_id', payload: selected.value })}
                     />
                 </div>
                 <div>
