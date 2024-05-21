@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import { useEffect, useReducer, useState } from "react";
 import Input from "../../../../ui/input";
 import Label from "../../../../ui/label";
@@ -20,7 +21,7 @@ const Form = ({ test = null }) => {
     const [testTypeOptions, setTestTypeOptions] = useState([]);
     const [subjectOptions, setSubjectOptions] = useState([]);
     const [loading, setLoading] = useState(false);
-    const [formState, formDispatch] = useReducer(reducer, initialState());
+    const [formState, formDispatch] = useReducer(reducer, initialState(test));
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -42,7 +43,6 @@ const Form = ({ test = null }) => {
 
         try {
             setLoading(true);
-
             if (isEditing) {
                 await updateApi('/teacher/tests/' + test.id, formState);
                 successAlert('Test updated successfully');
@@ -57,6 +57,8 @@ const Form = ({ test = null }) => {
             setLoading(false);
         }
     }
+
+    console.log(formState.test_type_id)
 
     return (
         <form onSubmit={saveHandler}>
@@ -77,27 +79,31 @@ const Form = ({ test = null }) => {
                 </div>
                 <div>
                     <Label
-                        htmlFor="name"
+                        htmlFor="subject_id"
                         required={true}
                     >
                         Subject
                     </Label>
                     <Select
+                        id='subject_id'
                         options={subjectOptions}
                         isSearchable={true}
+                        value={subjectOptions.find(({ value }) => value === formState.subject_id)}
                         onChange={(selected) => formDispatch({ type: actions.FIELD, field: 'subject_id', payload: selected.value })}
                     />
                 </div>
                 <div>
                     <Label
-                        htmlFor="name"
+                        htmlFor="test_type_id"
                         required={true}
                     >
                         Test type
                     </Label>
                     <Select
+                        id='test_type_id'
                         options={testTypeOptions}
                         isSearchable={true}
+                        value={testTypeOptions.find(({ value }) => value === formState.test_type_id)}
                         onChange={(selected) => formDispatch({ type: actions.FIELD, field: 'test_type_id', payload: selected.value })}
                     />
                 </div>
@@ -110,6 +116,10 @@ const Form = ({ test = null }) => {
             </div>
         </form>
     )
+}
+
+Form.propTypes = {
+    test: PropTypes.object
 }
 
 export default Form;
