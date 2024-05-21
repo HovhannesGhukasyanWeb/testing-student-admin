@@ -8,7 +8,7 @@ export const initFormData = (group) => {
         groups: [],
         loading: false,
         selectedDatas: {
-            head_teacher: group?.techer ? { value: group.techer.id, label: group.techer.username } : null,
+            head_teacher: group?.teacher ? { value: group.teacher.id, label: group.teacher.username } : null,
             parent_group: group?.parent ? { value: group.parent.id, label: group.parent.name } : null,
             group_types: group?.group_type ? { value: group.group_type.id, label: group.group_type.name } : null,
         }
