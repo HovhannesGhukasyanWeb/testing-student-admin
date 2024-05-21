@@ -7,7 +7,6 @@ import {
   Navigate,
 } from "react-router-dom";
 import Roles from "./pages/admin/roles";
-import Questions from "./pages/teacher/questions";
 
 const Home = React.lazy(() => import('./pages/home'));
 const Layout = React.lazy(() => import('./layout'));
@@ -19,6 +18,8 @@ const ManagerTeachers = React.lazy(() => import('./pages/manager/teachers'));
 const ManagerStudents = React.lazy(() => import('./pages/manager/students'));
 const ManagerGroups = React.lazy(() => import('./pages/manager/groups'));
 const GroupStudents = React.lazy(() => import('./pages/manager/group-students'));
+const TeacherQuestions = React.lazy(() => import('./pages/teacher/questions'));
+const TeacherTests = React.lazy(() => import('./pages/teacher/tests'));
 
 const MainRouter = () => {
     const { isAuthenticated } = useSelector((state) => state.user);
@@ -63,7 +64,8 @@ const MainRouter = () => {
               {/* end manager routes */}
 
               <Route path="teacher">
-                <Route path="questions" element={<Questions />} />
+                <Route path="questions" element={<TeacherQuestions />} />
+                <Route path="tests" element={<TeacherTests />} />
               </Route>
 
               {/* not found */}
