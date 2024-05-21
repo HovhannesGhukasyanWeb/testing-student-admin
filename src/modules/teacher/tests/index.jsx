@@ -38,8 +38,6 @@ const Tests = () => {
                             { title: "Subject", render: (test) => test.subject?.name },
                             { title: "Test type", render: (test) => test.type?.name },
                             { title: "Actions", render: (test) => <Actions test={test} /> },
-                            // { title: "Name", render: (role) => role.name },
-                            // { title: "Actions", render: (role) => <Actions role={role} /> },
                         ]}
                         total={total}
                         loading={loading}

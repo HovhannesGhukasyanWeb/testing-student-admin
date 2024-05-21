@@ -58,8 +58,6 @@ const Form = ({ test = null }) => {
         }
     }
 
-    console.log(formState.test_type_id)
-
     return (
         <form onSubmit={saveHandler}>
             <div className="space-y-4">
