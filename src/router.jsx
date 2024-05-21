@@ -18,6 +18,7 @@ const ManagerSubjects = React.lazy(() => import('./pages/manager/subjects'));
 const ManagerTeachers = React.lazy(() => import('./pages/manager/teachers'));
 const ManagerStudents = React.lazy(() => import('./pages/manager/students'));
 const ManagerGroups = React.lazy(() => import('./pages/manager/groups'));
+const GroupStudents = React.lazy(() => import('./pages/manager/group-students'));
 
 const MainRouter = () => {
     const { isAuthenticated } = useSelector((state) => state.user);
@@ -50,10 +51,15 @@ const MainRouter = () => {
               {/* end admin routes */}
 
               {/* manager routes */}
-              <Route path="/manager/subjects" element={<ManagerSubjects />} />
-              <Route path="/manager/teachers" element={<ManagerTeachers />} />
-              <Route path="/manager/students" element={<ManagerStudents />} />
-              <Route path="/manager/groups" element={<ManagerGroups />} />
+
+
+              <Route path="manager">
+                <Route path="subjects" element={<ManagerSubjects />} />
+                <Route path="teachers" element={<ManagerTeachers />} />
+                <Route path="students" element={<ManagerStudents />} />
+                <Route path="groups" element={<ManagerGroups />} />
+                <Route path="groups/:id/students" element={<GroupStudents />} />
+              </Route>
               {/* end manager routes */}
 
               <Route path="teacher">
