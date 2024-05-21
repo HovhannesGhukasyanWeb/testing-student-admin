@@ -47,6 +47,11 @@ export default [
                 path: "/teacher/questions",
                 icon: "CircleHelp",
             },
+            {
+                title: "Tests",
+                path: "/teacher/tests",
+                icon: "BookOpenCheck",
+            },
             // {
             //     title: "Groups",
             //     path: "/teacher/groups",
