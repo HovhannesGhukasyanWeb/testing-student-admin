@@ -11,10 +11,10 @@ const Table = ({
 }) => {
 
     return (
-        <div class="flex flex-col">
-            <div class="overflow-x-auto sm:mx-0.5 lg:mx-0.5">
-                <div class="py-2 inline-block min-w-full sm:px-6 lg:px-8">
-                    <div class="overflow-hidden">
+        <div className="flex flex-col">
+            <div className="overflow-x-auto sm:mx-0.5 lg:mx-0.5">
+                <div className="py-2 inline-block min-w-full sm:px-6 lg:px-8">
+                    <div className="overflow-hidden">
                         <table className="min-w-full">
                             <thead className='bg-white border-b'>
                                 <tr>

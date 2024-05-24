@@ -17,6 +17,7 @@ const userSlice = createSlice({
         logout(state) {
             state.isAuthenticated = false;
             state.user = null;
+            window.location.assign('/login');
         }
     }
 })
