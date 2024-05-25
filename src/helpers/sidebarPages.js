@@ -9,11 +9,12 @@ export const sidebarPages = (permissions) => (dispatch) => {
 
     permissions.forEach(permission => permissionString += permission.page);
 
-    let userSidebas = sidebar.filter(item => permissionString.includes(item.path));
+    let userSidebars = sidebar.filter(item => permissionString.includes(item.path));
+    
 
-    userSidebas.forEach((userSideba, index) => {
-        userSidebas[index].items.filter(item => permissionString.includes(item.path));
+    userSidebars.forEach((userSidebar, index) => {
+        userSidebars[index].items = userSidebar.items.filter(item => permissionString.includes(item.path));
     })
 
-    return userSidebas;
+    return userSidebars;
 }
