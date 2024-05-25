@@ -1,6 +1,7 @@
 export default [
     {
         title: "Admin",
+        path: '/admin',
         items: [
             {
                 title: "Users",
@@ -16,6 +17,7 @@ export default [
     },
     {
         title: 'Manager',
+        path: '/manager',
         items: [
             {
                 title: "Students",
@@ -41,6 +43,7 @@ export default [
     },
     {
         title: "Teacher",
+        path: '/teacher',
         items: [
             {
                 title: "Questions",

@@ -6,12 +6,9 @@ import { useNavigate } from "react-router-dom";
 
 const Navbar = () => {
     const dispatch = useDispatch();
-    const navigate = useNavigate();
     const { user } = useSelector(state => state.user);
-    const logoutHandler = () => {
-        dispatch(logout());
-        navigate('/login');
-    }
+    
+    const logoutHandler = () => dispatch(logout());
 
     return (
         <div className="bg-white py-3 flex justify-between items-center px-5 border-b border-lightgray">
