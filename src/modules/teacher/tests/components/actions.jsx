@@ -22,7 +22,7 @@ const Actions = ({ test }) => {
                 edit={true}
             />
             <Button
-                onClick={() => navigate('/tests/' + test.id + "/questions")}
+                onClick={() => navigate('/teacher/tests/' + test.id + "/questions")}
             >
                 See questions
             </Button>
