@@ -8,6 +8,7 @@ const Table = ({
     data,
     total,
     loading = false,
+    perPage = 10
 }) => {
 
     return (
@@ -59,7 +60,7 @@ const Table = ({
                         <div className='flex items-center justify-between mt-3'>
                             <span>Showing {data.length} from {total}</span>
                             <div>
-                                <Pagination total={total} />
+                                <Pagination total={total} perPage={perPage} />
                             </div>
                         </div>
                     </div>
@@ -74,6 +75,7 @@ Table.propTypes = {
     data: PropTypes.array.isRequired,
     loading: PropTypes.bool,
     total: PropTypes.number,
+    perPage: PropTypes.number,
 }
 
 export default Table;

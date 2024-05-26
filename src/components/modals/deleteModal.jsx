@@ -8,7 +8,7 @@ import Button from "../../ui/button";
 import ConfirmDialog from "../../ui/confirm-dialog";
 import { successAlert } from "../../helpers/alertMessage";
 
-const DeleteModal = ({ id, message, endpoint, params }) => {
+const DeleteModal = ({ id, message, endpoint, params, fetchEndpoint = null }) => {
 
     const [showDialog, setShowDialog] = useState(false);
     const dispatch = useDispatch();
@@ -23,7 +23,7 @@ const DeleteModal = ({ id, message, endpoint, params }) => {
             successAlert('Removed successfully');
             setShowDialog(false);
 
-            dispatch(fetchData({ endpoint, params }));
+            dispatch(fetchData({ endpoint: fetchEndpoint ?? endpoint, params }));
         } catch (error) {
             handleError(error);
         }
@@ -44,6 +44,7 @@ DeleteModal.propTypes = {
     message: PropTypes.string.isRequired,
     endpoint: PropTypes.string.isRequired,
     params: PropTypes.object,
+    fetchEndpoint: PropTypes.string
 }
 
 export default DeleteModal;
