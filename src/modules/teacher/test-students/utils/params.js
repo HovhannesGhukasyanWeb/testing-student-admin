@@ -1,3 +1,3 @@
 export default {
-    include: 'testUsers.user'
+    include: 'testUsers.user.userProfile'
 }

@@ -7,6 +7,7 @@ import FormModal from "../../../components/modals/formModal";
 import Table from "../../../components/table";
 import Actions from "./components/actions";
 import Form from "./components/form";
+import { changeDateFormat } from '../../../helpers/changeDateFormat';
 
 const TestStudents = () => {
     const { id } = useParams();
@@ -30,9 +31,17 @@ const TestStudents = () => {
                     <Table
                         columns={[
                             { title: "ID", render: (testStudent) => testStudent.id },
-                            { title: "Student", render: (testStudent) => testStudent.user.username },
-                            { title: "Start", render: (testStudent) => testStudent.test_data_from },
-                            { title: "End", render: (testStudent) => testStudent.test_data_to },
+                            {
+                                title: "Student", render: (testStudent) => {
+                                    const student = testStudent.user;
+                                    const studentProfile = student.user_profile;
+                                    const text = `${studentProfile.first_name ?? ""} ${studentProfile.middle_name ?? ""} ${studentProfile.last_name ?? ""}`
+                                    const isTextEmpty = text.trim() === "";
+                                    return !isTextEmpty ? text : student.username;
+                                }
+                            },
+                            { title: "Start Time", render: (testStudent) => changeDateFormat(testStudent.test_data_from) },
+                            { title: "End Time", render: (testStudent) => changeDateFormat(testStudent.test_data_to) },
                             { title: "Actions", render: (testStudent) => <Actions testStudent={testStudent} /> }
                         ]}
                         data={testStudents}
