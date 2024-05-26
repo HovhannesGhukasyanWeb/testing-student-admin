@@ -43,7 +43,7 @@ const Table = ({
                                             </td>
                                         </tr>
                                     ) : (
-                                        data.map((row, index) => {
+                                        data?.map((row, index) => {
                                             return (
                                                 <tr className={localIsCouple(index) ? 'bg-gray-100 border-b' : 'bg-white border-b'} key={`row-${row.id}`}>
                                                     {columns.map((column) => {

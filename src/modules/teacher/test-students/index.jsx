@@ -6,6 +6,7 @@ import params from "./utils/params";
 import FormModal from "../../../components/modals/formModal";
 import Table from "../../../components/table";
 import Actions from "./components/actions";
+import Form from "./components/form";
 
 const TestStudents = () => {
     const { id } = useParams();
@@ -23,7 +24,7 @@ const TestStudents = () => {
             <div className="p-2 w-full">
                 <div className="flex items-center justify-between w-full">
                     <div></div>
-                    <FormModal buttonText='Create test student' component={() => <div></div>} />
+                    <FormModal buttonText='Create test student' component={() => <Form />} />
                 </div>
                 <div>
                     <Table
