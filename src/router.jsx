@@ -21,6 +21,7 @@ const GroupStudents = React.lazy(() => import('./pages/manager/group-students'))
 const TeacherQuestions = React.lazy(() => import('./pages/teacher/questions'));
 const TeacherTests = React.lazy(() => import('./pages/teacher/tests'));
 const TeacherTestQuestions = React.lazy(() => import('./pages/teacher/test-questions'));
+const TeacherTestStudents = React.lazy(() => import('./pages/teacher/test-students'));
 
 const MainRouter = () => {
   const { isAuthenticated } = useSelector((state) => state.user);
@@ -68,6 +69,7 @@ const MainRouter = () => {
               <Route path="questions" element={<TeacherQuestions />} />
               <Route path="tests" element={<TeacherTests />} />
               <Route path="tests/:id/questions" element={<TeacherTestQuestions />} />
+              <Route path="tests/:id/students" element={<TeacherTestStudents />} />
             </Route>
 
             {/* not found */}
