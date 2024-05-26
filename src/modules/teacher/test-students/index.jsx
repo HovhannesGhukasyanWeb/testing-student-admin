@@ -40,6 +40,8 @@ const TestStudents = () => {
                                     return !isTextEmpty ? text : student.username;
                                 }
                             },
+                            { title: "Status", render: (testStudent) => testStudent.status },
+                            { title: "Mark", render: (testStudent) => testStudent.mark ?? "Not set" },
                             { title: "Start Time", render: (testStudent) => changeDateFormat(testStudent.test_data_from) },
                             { title: "End Time", render: (testStudent) => changeDateFormat(testStudent.test_data_to) },
                             { title: "Actions", render: (testStudent) => <Actions testStudent={testStudent} /> }
