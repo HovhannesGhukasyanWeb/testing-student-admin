@@ -7,17 +7,27 @@
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "build:watch": "vite build --watch"
   },
   "dependencies": {
     "@reduxjs/toolkit": "^2.2.3",
+    "axios": "^1.6.8",
     "js-cookie": "^3.0.5",
     "lucide-react": "^0.376.0",
+    "primereact": "^10.6.4",
     "react": "^18.2.0",
+    "react-albus": "^2.0.0",
+    "react-checkbox-tree": "^1.8.0",
     "react-data-table-component": "^7.6.2",
     "react-dom": "^18.2.0",
+    "react-dropzone": "^14.2.3",
+    "react-form-stepper": "^2.0.3",
+    "react-hot-toast": "^2.4.1",
     "react-redux": "^9.1.1",
     "react-router-dom": "^6.23.0",
+    "react-select": "^5.8.0",
+    "react-switch": "^7.0.0",
     "redux-persist": "^6.0.0",
     "redux-thunk": "^3.1.0"
   },

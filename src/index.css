@@ -1,6 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
 :root,
 html,
 body,
@@ -11,4 +12,84 @@ body,
 body {
     font-family: 'Roboto', sans-serif;
     background-color: #f7f7f7;
+}
+
+@layer components {
+    .modal {
+        @apply fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center;
+    }
+
+    .modal__content {
+        @apply bg-white p-[20px] rounded-[5px] w-[700px];
+    }
+
+    .button {
+        @apply px-[20px] py-[10px] rounded-[5px] text-white text-[16px] cursor-pointer w-max disabled:opacity-50;
+    }
+
+    .button.primary {
+        @apply bg-[#007bff];
+    }
+
+    .button.secondary {
+        @apply bg-[#6c757d] text-white;
+    }
+
+    .button.success {
+        background-color: #28a745;
+    }
+
+    .button.danger {
+        background-color: #dc3545;
+    }
+
+    .button.light {
+        background-color: #f8f9fa;
+    }
+
+    .button.dark {
+        background-color: #343a40;
+    }
+
+    .button.link {
+        background-color: white;
+        color: #007bff;
+    }
+
+    .button.warning {
+        background-color: #ffc107;
+    }
+
+    .button:hover {
+        filter: brightness(0.9);
+    }
+
+    .datatable {
+        @apply w-full border-collapse;
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
+    }
+
+    .datatable th,
+    .datatable td {
+        @apply border border-gray-300 p-[10px];
+    }
+
+    .datatable th {
+        @apply bg-blue-500 text-white;
+    }
+
+    .datatable thead,
+    .datatable thead tr {
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
+    }
+
+    .datatable thead tr th:first-child {
+        border-top-left-radius: 10px;
+    }
+
+    .datatable thead tr th:last-child {
+        border-top-right-radius: 10px;
+    }
 }

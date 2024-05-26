@@ -1,18 +1,19 @@
 import { useNavigate } from "react-router-dom";
+import Button from "../../ui/button";
 
 const NotFound = () => {
     const navigate = useNavigate();
 
     return (
-        <main className="flex items-center justify-center flex-col gap-[50px]">
+        <main className="flex items-center justify-center flex-col gap-[50px] w-full">
             <h2>Page not found.</h2>
-            <button
-                className="btn"
+            <Button
                 type="button"
-                onClick={() => navigate(-1)}
+                variant="primary"
+                onClick={() => navigate("/")}
             >
-                Return to previous page
-            </button>
+                Return home
+            </Button>
         </main>
     );
 }

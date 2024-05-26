@@ -15,11 +15,11 @@ export default function SidebarItem({ item }) {
 
     return (
         <li>
-            <div onClick={() => setIsSidebarItemOpen(!isSidebarItemOpen)} className={`cursor-pointer flex items-center w-full justify-between hover:bg-[#F3F3F3] p-2 pl-4 rounded-sm ${isSidebarItemOpen && "bg-[#F3F3F3]"}`}>
+            <div onClick={() => setIsSidebarItemOpen(!isSidebarItemOpen)} className={`cursor-pointer flex items-center w-full justify-between hover:bg-[#F3F3F3] p-2 pl-4 rounded-lg ${isSidebarItemOpen && "bg-[#F3F3F3]"}`}>
                 <span>{item.title}</span>
                 <ChevronLeft className={`w-4 h-4 ${isSidebarItemOpen ? "-rotate-90 transition duration-150" : ""}`} />
             </div>
-            <ul className={`m-4 ml-6 space-y-4 transition duration-75 ${isSidebarItemOpen ? "h-full opacity-100" : "h-0 opacity-0"}`}>
+            <ul className={`transition duration-75  ${isSidebarItemOpen ? "m-4 ml-6 space-y-4  h-full opacity-100" : "h-0 opacity-0 overflow-y-hidden"}`}>
                 {item.items.map((subItem) => {
                     const Icon = icons[subItem.icon];
                     return (
