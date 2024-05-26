@@ -2,10 +2,9 @@ import PropTypes from 'prop-types';
 import { useSearchParams } from 'react-router-dom';
 import { ChevronsLeft, ChevronLeft, ChevronRight, ChevronsRight } from 'lucide-react'
 
-const Pagination = ({ total }) => {
+const Pagination = ({ total, perPage = 10 }) => {
     const [searchParams, setSearchParams] = useSearchParams();
     const currentPage = +searchParams.get('page') || 1;
-    const perPage = 10;
     const totalPages = Math.ceil(total / perPage);
     const isFirstPage = currentPage === 1;
     const isLastPage = currentPage === totalPages;
@@ -82,7 +81,8 @@ const Pagination = ({ total }) => {
 }
 
 Pagination.propTypes = {
-    total: PropTypes.number.isRequired
+    total: PropTypes.number.isRequired,
+    perPage: PropTypes.number,
 }
 
 export default Pagination;

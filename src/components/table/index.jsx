@@ -8,13 +8,14 @@ const Table = ({
     data,
     total,
     loading = false,
+    perPage = 10
 }) => {
 
     return (
-        <div class="flex flex-col">
-            <div class="overflow-x-auto sm:mx-0.5 lg:mx-0.5">
-                <div class="py-2 inline-block min-w-full sm:px-6 lg:px-8">
-                    <div class="overflow-hidden">
+        <div className="flex flex-col">
+            <div className="overflow-x-auto sm:mx-0.5 lg:mx-0.5">
+                <div className="py-2 inline-block min-w-full sm:px-6 lg:px-8">
+                    <div className="overflow-hidden">
                         <table className="min-w-full">
                             <thead className='bg-white border-b'>
                                 <tr>
@@ -59,7 +60,7 @@ const Table = ({
                         <div className='flex items-center justify-between mt-3'>
                             <span>Showing {data.length} from {total}</span>
                             <div>
-                                <Pagination total={total} />
+                                <Pagination total={total} perPage={perPage} />
                             </div>
                         </div>
                     </div>
@@ -74,6 +75,7 @@ Table.propTypes = {
     data: PropTypes.array.isRequired,
     loading: PropTypes.bool,
     total: PropTypes.number,
+    perPage: PropTypes.number,
 }
 
 export default Table;
