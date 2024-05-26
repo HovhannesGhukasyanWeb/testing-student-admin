@@ -3,8 +3,6 @@
 export default (permissions) => {
     let newPermissions = permissions.filter(permission => permission.type == "menu")
     let subPermissions = permissions.filter(permission => permission.type == "sub_menu")
-    // console.log(Object.groupBy(newPermissions, ({ title }) => title))
-    // console.log("subpermissions => ", Object.groupBy(subPermissions, ({ title }) => title))
 
     newPermissions.forEach(parentPermission => {
         const page = parentPermission.page;

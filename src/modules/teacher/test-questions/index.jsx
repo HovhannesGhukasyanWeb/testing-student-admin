@@ -1,6 +1,5 @@
 import { useEffect } from "react";
 import FormModal from "../../../components/modals/formModal";
-import Search from "../../../components/search";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchData } from "../../../store/slices/tableSlice";
@@ -15,7 +14,6 @@ const TestQuestions = () => {
     const { data: test, loading } = useSelector(state => state.table);
     const testQuestions = test.test_questions ?? [];
     const total = testQuestions.length;
-    console.log(testQuestions)
     useEffect(() => {
         dispatch(fetchData({ endpoint: `/teacher/tests/${id}`, params }));
     }, [id, dispatch]);
@@ -33,7 +31,6 @@ const TestQuestions = () => {
                     <p className="text-sm text-gray-500">Add questions to test</p>
                 </div>
                 <div className="flex items-center justify-between w-full">
-                    {/* <Search /> */}
                     <div></div>
                     <FormModal buttonText='Create test question' component={() => <Form />} />
                 </div>
