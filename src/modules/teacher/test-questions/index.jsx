@@ -1,6 +1,5 @@
 import { useEffect } from "react";
 import FormModal from "../../../components/modals/formModal";
-import Search from "../../../components/search";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchData } from "../../../store/slices/tableSlice";

@@ -26,6 +26,11 @@ const Actions = ({ test }) => {
             >
                 See questions
             </Button>
+            <Button
+                onClick={() => navigate('/teacher/tests/' + test.id + "/students")}
+            >
+                Assign to students
+            </Button>
         </div>
     )
 }
