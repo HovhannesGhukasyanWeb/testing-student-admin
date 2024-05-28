@@ -53,7 +53,7 @@ const QuestionForm = ({ formDispatch, formState, next }) => {
     }
 
     return (
-        <div className="space-y-4">
+        <div className="space-y-4 overflow-y-auto">
             <div>
                 <Label htmlFor="question_type_id">Question Type</Label>
                 <Select
@@ -96,7 +96,7 @@ const QuestionForm = ({ formDispatch, formState, next }) => {
                                 <button type="button" onClick={resetImage} className="absolute top-0 right-0 shadow-lg p-2 rounded-full mb-4 ml-4 bg-gray-300">
                                     <X className="w-4 h-4" />
                                 </button>
-                                <img src={formState.image} alt="question" className="w-full" />
+                                <img src={formState.image} alt="question" className="w-full max-h-[300px] object-cover" />
                             </div>
                         ) : (
                             <p>Drag and drop, or upload question image.</p>
